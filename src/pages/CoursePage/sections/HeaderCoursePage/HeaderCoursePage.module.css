@@ -1,0 +1,148 @@
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 32px 50px 0;
+
+    border-bottom: 1px solid #E3E7EF;
+    background: #FFF;
+}
+
+.headerRow {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+}
+
+.headerTitle {
+    margin: 0;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 52.8px; /* 110% */
+    letter-spacing: -0.48px;
+    color: #14151F;
+}
+
+.headerBadges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 12px;
+
+    font-family: var(--font-text);
+    font-size: 13px;
+    color: #4A4E63;
+}
+
+/* ----- Progression ----- */
+
+.progress {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 320px;
+}
+
+.progressText {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    line-height: 21px;
+    color: #4A4E63;
+}
+
+.progressCount {
+    font-family: var(--font-text);
+}
+
+.progressBar {
+    height: 8px;
+    border-radius: 99px;
+    background: #EEF1F6;
+}
+
+.progressFill {
+    height: 100%;
+    border-radius: 99px;
+    background: #5B3FE0;
+    transition: width 0.3s;
+}
+
+/* ----- Onglets des étapes ----- */
+
+.steps {
+    display: flex;
+    gap: 4px;
+    padding-top: 8px;
+    overflow-x: auto;
+}
+
+.step {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 10px;
+    height: 52px;
+    padding: 0 18px;
+    box-sizing: border-box;
+
+    border-bottom: 3px solid transparent;
+    font-weight: 500;
+    color: #6B6F85;
+}
+
+.step:hover {
+    color: #14151F;
+}
+
+.stepCurrent {
+    border-bottom-color: #5B3FE0;
+    font-weight: 600;
+    color: #14151F;
+}
+
+.stepNumber {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 26px;
+    height: 26px;
+
+    border-radius: 8px;
+    font-family: var(--font-text);
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.stepNumber--done {
+    background: #E3F5EC;
+    color: #1F7A4D;
+}
+
+.stepNumber--current {
+    background: #5B3FE0;
+    color: #FFF;
+    font-weight: 600;
+}
+
+.stepNumber--todo {
+    background: #F1F3F8;
+    color: #6B6F85;
+}
+
+@media (max-width: 1024px) {
+    .header {
+        padding: 24px 16px 0;
+    }
+
+    .headerTitle {
+        font-size: 36px;
+        line-height: 40px;
+    }
+
+    .progress {
+        width: 100%;
+    }
+}

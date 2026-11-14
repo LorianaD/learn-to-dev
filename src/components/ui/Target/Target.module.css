@@ -1,0 +1,23 @@
+.target {
+    display: flex;
+    height: 30px;
+    padding: 0 12px;
+    align-items: center;
+    border-radius: 999px;
+    border: 1px solid;
+    width: fit-content;
+}
+
+.target--home-page {
+    border-color: #DCD3FD;
+    background: #EEEAFE;
+}
+
+.target--category {
+    border: 1px solid rgba(0, 0, 0, 0.00);
+    background: #F1F3F8;
+}
+
+.target--level {
+    border: none;
+}

@@ -1,0 +1,11 @@
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    flex: 1;
+    align-self: stretch;
+}
+
+.mainContainer img {
+    width: 14px;
+}

@@ -1,0 +1,65 @@
+.sidebar {
+    display: flex;
+    width: 300px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    align-self: stretch;
+}
+
+.sidebarTitle {
+    display: flex;
+    padding: 8px 12px 8px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+
+    color: #6B6F85;
+    font-family: var(--font-title);
+    line-height: 18px; /* 150% */
+    letter-spacing: 0.96px;
+}
+
+.groups[hidden] {
+    display: none;
+}
+
+.groupTitle {
+    display: flex;
+    padding: 8px 12px 4px 38px;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 22.5px; /* 150% */
+}
+
+.itemList {
+    display: flex;
+    padding-left: 38px;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+}
+
+.itemLink {
+    display: flex;
+    height: 33px;
+    padding: 6px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    align-self: stretch;
+    border-left: 2px solid #E3E7EF;
+
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px; /* 150% */
+}
+
+.itemLink:hover,
+.itemLinkActive {
+    border-left: 2px solid #0B7FA8;
+    color: #0B7FA8;
+}

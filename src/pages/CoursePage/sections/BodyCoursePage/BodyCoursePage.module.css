@@ -1,0 +1,183 @@
+.body {
+    display: flex;
+    align-items: flex-start;
+    gap: 48px;
+    padding: 48px 50px 96px;
+
+    background: #F7F9FC;
+}
+
+/* ----- Contenu de l'étape ----- */
+
+.main {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    flex: 1;
+    min-width: 0;          /* évite que les longs blocs de code élargissent la page */
+    max-width: 1040px;
+}
+
+.stepLabel {
+    font-family: var(--font-text);
+    font-size: 13px;
+    line-height: 19.5px;
+    letter-spacing: 0.78px;
+    text-transform: uppercase;
+    color: #5B3FE0;
+}
+
+.stepTitle {
+    padding-top: 6px;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 54px;
+    letter-spacing: -0.36px;
+    color: #14151F;
+}
+
+.intro {
+    max-width: 860px;
+    padding-top: 12px;
+    font-size: 18px;
+    line-height: 27px;
+    color: #2A2C3A;
+}
+
+.intro code,
+.text code {
+    color: #5B3FE0;
+}
+
+.heading {
+    font-family: var(--font-title);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 36px;
+    color: #14151F;
+    scroll-margin-top: 24px;   /* laisse un peu d'espace au-dessus quand on clique dans le sommaire */
+}
+
+.text {
+    max-width: 860px;
+    font-size: 16px;
+    line-height: 24px;
+    color: #2A2C3A;
+}
+
+/* ----- Boutons précédent / suivant ----- */
+
+.navigation {
+    display: flex;
+    gap: 16px;
+    padding-top: 16px;
+}
+
+.previous,
+.next {
+    display: flex;
+    align-items: center;
+    height: 44px;
+    padding: 0 20px;
+    box-sizing: border-box;
+
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 22.5px;
+}
+
+.previous {
+    border: 1px solid #CFD6E4;
+    background: #FFF;
+    color: #14151F;
+}
+
+.next {
+    margin-left: auto;     /* toujours à droite, même sans bouton « précédent » */
+    background: #5B3FE0;
+    color: #FFF;
+}
+
+/* ----- Sommaire à droite ----- */
+
+.sidebar {
+    position: sticky;
+    top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 300px;
+    flex-shrink: 0;
+}
+
+.sidebarLabel {
+    font-family: var(--font-text);
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0.96px;
+    text-transform: uppercase;
+    color: #6B6F85;
+}
+
+.sidebarLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sidebarLink {
+    display: block;
+    padding-left: 12px;
+    border-left: 2px solid #E3E7EF;
+    line-height: 24px;
+    color: #4A4E63;
+}
+
+.sidebarLink:hover {
+    border-left-color: #5B3FE0;
+    color: #5B3FE0;
+}
+
+.asideCard {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 20px;
+
+    border-radius: 20px;
+    border: 1px solid #E3E7EF;
+    background: #FFF;
+}
+
+.asideTitle {
+    font-family: var(--font-title);
+    font-size: 18px;
+    line-height: 27px;
+    letter-spacing: -0.18px;
+    color: #14151F;
+}
+
+.asideText {
+    font-size: 14px;
+    line-height: 21px;
+    color: #4A4E63;
+}
+
+@media (max-width: 1024px) {
+    .body {
+        flex-direction: column;
+        padding: 32px 16px 64px;
+    }
+
+    .sidebar {
+        position: static;
+        width: 100%;
+    }
+
+    .stepTitle {
+        font-size: 28px;
+        line-height: 36px;
+    }
+}

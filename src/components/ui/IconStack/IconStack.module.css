@@ -1,0 +1,35 @@
+.iconStack {
+    display: flex;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1/1;
+}
+
+.iconStack > img {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.iconStack--langages {
+    background: #EEEAFE;
+    color: #5B3FE0;
+}
+
+.iconStack--framework {
+    background: #E0F5FB;
+    color: #0B7FA8;
+}
+
+.iconStack--database {
+    background: #FDEFE3;
+    color: #B4530B;
+}
+
+.iconStack--prod {
+    background: #E3F5EC;
+    color: #1F7A4D;
+}

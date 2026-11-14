@@ -1,0 +1,29 @@
+.categorySection {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    align-self: stretch;
+}
+
+.categorySectionHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+}
+
+.categorySectionTitle {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 39px; /* 150% */
+    letter-spacing: -0.26px;
+}
+
+.categorySectionCards {
+    display: inline-grid;
+    row-gap: 20px;
+    column-gap: 20px;
+    grid-template-rows: 286px;
+    grid-template-columns: 413.33px 413.33px 413.34px;
+}

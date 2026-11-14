@@ -1,0 +1,6 @@
+.courseFrame {
+  display: block;
+  width: 100%;
+  height: calc(100vh - 80px); /* ajuste 80px à la hauteur de ton header */
+  border: 0;
+}

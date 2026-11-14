@@ -1,0 +1,7 @@
+.mainContentCategory {
+    display: flex;
+    padding: 40px 50px 96px 50px;
+    align-items: flex-start;
+    gap: 48px;
+    align-self: stretch;
+}

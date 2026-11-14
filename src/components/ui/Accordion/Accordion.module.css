@@ -1,0 +1,23 @@
+.accordion {
+    display: flex;
+    padding: 10px 12px;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.accordionOpen,
+.accordion:hover {
+    background: #E0F5FB;
+    color: #0B7FA8;
+}
+
+.accordionIcon {
+    width: 14px;
+}
+
+.accordionIconOpen {
+    transform: rotate(90deg);
+}

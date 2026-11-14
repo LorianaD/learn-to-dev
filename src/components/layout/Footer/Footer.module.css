@@ -1,0 +1,11 @@
+.footer {
+    display: flex;
+    height: 102px;
+    padding: 40px 50px;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-self: stretch;
+    border-top: 1px solid #E3E7EF;
+    background: #FFF;
+    color: #6B6F85;
+}

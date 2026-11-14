@@ -1,0 +1,22 @@
+.LastCoursesSection {
+    display: flex;
+    padding: 72px 50px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    align-self: stretch;
+}
+
+.Title {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 48px; /* 150% */
+    letter-spacing: -0.32px;
+}
+
+.Cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    align-self: stretch;
+}

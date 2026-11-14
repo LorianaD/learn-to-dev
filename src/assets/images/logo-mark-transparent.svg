@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-labelledby="ltdm-title">
+  <title id="ltdm-title">learn-to-dev</title>
+  <defs>
+    <linearGradient id="ltdm-bg" x1="8" y1="18" x2="56" y2="46" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7C5CFF"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <linearGradient id="ltdm-txt" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7C5CFF"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(0 0)">
+    <g fill="none" stroke="url(#ltdm-bg)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 19 L7 32 L19 45"/>
+      <path d="M45 19 L57 32 L45 45"/>
+      <path d="M26.5 45 L37.5 19"/>
+      <path d="M30.94 22.64 L37.5 19 L39.45 26.24"/>
+    </g>
+  </g>
+</svg>

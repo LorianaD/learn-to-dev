@@ -1,0 +1,38 @@
+.callout {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    align-self: stretch;
+    padding: 20px 24px;
+
+    border-radius: 14px;
+    border: 1px solid;
+
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.calloutLabel {
+    flex-shrink: 0;
+    font-weight: 700;
+}
+
+.tip {
+    border-color: #BFE6D1;
+    background: #E3F5EC;
+    color: #1E3A2B;
+}
+
+.tip .calloutLabel {
+    color: #1F7A4D;
+}
+
+.warning {
+    border-color: #F6D3B5;
+    background: #FDEFE3;
+    color: #4A2A10;
+}
+
+.warning .calloutLabel {
+    color: #B4530B;
+}

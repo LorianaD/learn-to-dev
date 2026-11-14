@@ -1,0 +1,51 @@
+.codeBlock {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    overflow: hidden;
+
+    border-radius: 16px;
+    background: #1B1C27;
+}
+
+.codeBlockHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+
+    background: #242533;
+}
+
+.codeBlockFile {
+    font-family: var(--font-text);
+    font-size: 13px;
+    line-height: 19.5px;
+    color: #A3A7BD;
+}
+
+.codeBlockCopy {
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 1px solid #3A3C4E;
+
+    font-size: 13px;
+    line-height: 19.5px;
+    color: #A3A7BD;
+}
+
+.codeBlockCopy:hover {
+    color: #E6E8F0;
+    border-color: #A3A7BD;
+}
+
+.codeBlockCode {
+    margin: 0;
+    padding: 24px;
+    overflow-x: auto;
+
+    font-family: var(--font-text);
+    font-size: 15px;
+    line-height: 25.5px;
+    color: #E6E8F0;
+}

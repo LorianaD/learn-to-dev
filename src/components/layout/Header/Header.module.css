@@ -1,0 +1,123 @@
+.header {
+    display: flex;
+    height: 120px;
+    padding: 0 50px;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+    border-bottom: 1px solid #CFE3F7;
+    background: #E3F1FE;
+
+    position: relative;
+}
+
+.logo {
+    display: flex;
+    width: 310.375px;
+    height: 52px;
+    justify-content: center;
+    align-items: center;
+}
+
+.navList {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    color: #2A2C3A;
+    line-height: 24px;
+}
+
+.navItem { 
+    color: inherit; 
+    text-decoration: none; 
+}
+
+.navItemActive,
+.navItem:hover {
+    color: #5B3FE0;
+    /* font-weight: 600; */
+    text-decoration: underline;
+    text-underline-offset: 8px;
+}
+
+.burger {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .header {
+        height: 72px;
+        padding: 0 20px;
+    }
+
+    .logo { 
+        width: auto; 
+        height: 40px; 
+    }
+
+    .logo img { 
+        height: 100%; 
+    }
+
+    .burger {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        width: 44px;
+        height: 44px;
+        padding: 10px;
+        background: none;
+        border: 0;
+        cursor: pointer;
+    }
+
+    .burgerBar {
+        display: block;
+        height: 2px;
+        background: #2A2C3A;
+        border-radius: 2px;
+        transition: transform .2s, opacity .2s;
+    }
+
+    /* burger → croix : 7px = hauteur d'une barre (2px) + gap (5px) */
+    .burger[aria-expanded="true"] 
+    .burgerBar:nth-child(1) { 
+        transform: translateY(7px) 
+        rotate(45deg); 
+    }
+
+    .burger[aria-expanded="true"] 
+    .burgerBar:nth-child(2) { 
+        opacity: 0; 
+    }
+
+    .burger[aria-expanded="true"] 
+    .burgerBar:nth-child(3) { 
+        transform: translateY(-7px) rotate(-45deg); 
+    }
+
+    .navList {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 8px 20px 16px;
+        background: #E3F1FE;
+        border-bottom: 1px solid #CFE3F7;
+    }
+
+    .navListOpen { 
+        display: flex; 
+    }
+
+    .navItem { 
+        display: block; 
+        padding: 12px 0; 
+    }
+}
