@@ -20,7 +20,10 @@ function HeroHomePage({ target, title, description }: HeroHomePageMeta) {
                     <img src={searchIcon} alt="" />
                 </div>
 
-                <input type="text" placeholder="Rechercher un cours, une techno… (ex. useEffect, JWT, JOIN)" />
+                <input 
+                    type="text" 
+                    placeholder="Rechercher un cours, une techno… (ex. useEffect, JWT, JOIN)"
+                />
             </div>
         </section>
     )

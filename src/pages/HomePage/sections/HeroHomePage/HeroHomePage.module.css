@@ -44,3 +44,9 @@
     width: 18px;
     aspect-ratio: 1/1;
 }
+
+@media (max-width: 1040px) {
+    .search {
+        width: 100%;
+    }
+}
