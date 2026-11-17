@@ -3,12 +3,23 @@ import { Breadcrumb, Button, IconStack } from "../../../../components";
 import styles from "./CategoryHeader.module.css";
 import type { CategoryHeaderTypes } from "./CategoryHeader.types";
 
-function CategoryHeader({title, description, icon, variant, groups}:CategoryHeaderTypes) {
+function CategoryHeader({title, description, icon, variant, groups, onFilterChange}:CategoryHeaderTypes) {
     const [selected, setSelected] = useState<string>("Tout");
     
+    function handleFilterChange(filter: string) {
+        setSelected(filter);
+        onFilterChange?.(filter);
+    }
+
     return (
         <div className={styles.categoryHeader}>
-            <Breadcrumb items={["Accueil", title]} />
+            
+            <Breadcrumb
+                items={[
+                    { label: "Accueil", to: "/" },
+                    { label: title },
+                ]}
+            />
 
             <div className={styles.Header}>
                 {icon && (
@@ -26,12 +37,12 @@ function CategoryHeader({title, description, icon, variant, groups}:CategoryHead
 
             <ul className={styles.filters}>
                 <li>
-                    <Button label="Tout" variant="filter" active={selected === "Tout"} onClick={() => setSelected("Tout")} />
+                    <Button label="Tout" variant="filter" active={selected === "Tout"} onClick={() => handleFilterChange("Tout")} />
                 </li>
 
                 {groups.map((group) => (
                     <li key={group.title}>
-                        <Button label={group.title} variant="filter" active={selected === group.title} onClick={() => setSelected(group.title)} />
+                        <Button label={group.title} variant="filter" active={selected === group.title} onClick={() => handleFilterChange(group.title)} />
                     </li>
                 ))}
             </ul>

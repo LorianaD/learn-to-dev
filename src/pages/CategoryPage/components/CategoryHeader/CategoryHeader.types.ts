@@ -6,4 +6,5 @@ export interface CategoryHeaderTypes {
     icon: string;
     variant: string;
     groups: CategoryGroup[];
+    onFilterChange?: (filter: string) => void;
 }

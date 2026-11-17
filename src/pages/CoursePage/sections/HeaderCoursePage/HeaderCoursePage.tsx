@@ -10,9 +10,26 @@ const sourceLabels = {
 
 function HeaderCoursePage({ course, steps, currentIndex, onSelectStep }: HeaderCoursePageTypes) {
     const location = getCourseLocation(course.slug);
+
     const breadcrumb = location
-        ? [location.category.title, location.group.title, course.title]
-        : [course.title];
+        ? [
+            {
+                label: location.category.title,
+                to: `/categories/${location.category.slug}`,
+            },
+            {
+                label: location.group.title,
+                to: `/categories/${location.category.slug}`,
+            },
+            {
+                label: course.title,
+            },
+        ]
+        : [
+            {
+                label: course.title,
+            },
+        ];
 
     // Pourcentage de la barre de progression
     const progress = ((currentIndex + 1) / steps.length) * 100;
