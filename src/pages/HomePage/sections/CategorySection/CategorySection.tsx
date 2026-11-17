@@ -1,4 +1,4 @@
-import CategoryCard from "../CategoryCard/CategoryCard";
+import { Card } from "../../../../components";
 import styles from "./CategorySection.module.css";
 import type { CategorySectionTypes } from "./CategorySection.types";
 
@@ -7,7 +7,21 @@ function CategorySection({ categories }: CategorySectionTypes) {
         <section className={styles.categorySection}>
             <div className={styles.categorySectionCards}>
                 {categories.map((category) => (
-                    <CategoryCard key={category.slug} category={category} />
+                    <Card
+                        key={category.slug}
+                        title={category.title}
+                        description={category.description}
+                        icon={category.icon}
+                        iconVariant={category.variant}
+                        targetsLanguages={category.groups.map((group) => ({
+                            text: group.title,
+                            variant: "category"
+                        }))}
+                        link={{
+                            to: `/categories/${category.slug}`,
+                            label: "Voir les cours"
+                        }}
+                    />
                 ))}
             </div>
         </section>

@@ -20,3 +20,15 @@
     gap: 20px;
     align-self: stretch;
 }
+
+@media (max-width: 1040px) {
+    .LastCoursesSection {
+        align-items: center;
+        padding: 37px 25px;
+    }
+
+    .Cards {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
