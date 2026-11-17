@@ -4,20 +4,40 @@ interface InlineTextTypes {
     text: string;
 }
 
-// Transforme "utilise `useState` ici" en : utilise <code>useState</code> ici
+// Recognizes inline code, bold, italic and Markdown links.
+const markdownRegex = /(`[^`]+`|\*\*[^*]+\*\*|\*[^*\n]+\*|\[[^\]]+\]\(https?:\/\/[^)\s]+\))/g;
+
 function InlineText({ text }: InlineTextTypes) {
-    // split avec un backtick : les morceaux impairs (1, 3, 5…) étaient entre backticks
-    const parts = text.split("`");
+    const parts = text.split(markdownRegex);
 
     return (
         <>
-            {parts.map((part, index) =>
-                index % 2 === 1
-                    ? <code key={index} className={styles.inlineCode}>{part}</code>
-                    : part
-            )}
+            {parts.map((part, index) => {
+                if (part.startsWith("`") && part.endsWith("`")) {
+                    return <code key={index} className={styles.inlineCode}>{part.slice(1, -1)}</code>;
+                }
+
+                if (part.startsWith("**") && part.endsWith("**")) {
+                    return <strong key={index}>{part.slice(2, -2)}</strong>;
+                }
+
+                if (part.startsWith("*") && part.endsWith("*")) {
+                    return <em key={index}>{part.slice(1, -1)}</em>;
+                }
+
+                const link = part.match(/^\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)$/);
+                if (link) {
+                    return (
+                        <a key={index} href={link[2]} target="_blank" rel="noopener noreferrer">
+                            {link[1]}
+                        </a>
+                    );
+                }
+
+                return part;
+            })}
         </>
-    )
+    );
 }
 
-export default InlineText
+export default InlineText;

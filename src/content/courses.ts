@@ -1,6 +1,7 @@
 // src/content/courses.ts
 import type { CourseMeta } from '../types/course';
 import { frameworkMaisonSteps } from './steps/framework-made-home';
+import { githubActionsSteps } from './steps/github-actions-cicd';
 import { javaInstallationSteps } from './steps/java-installation';
 import { javaProjetSteps } from './steps/java-projet';
 import { postgresqlSteps } from './steps/postgresql-initial';
@@ -18,7 +19,6 @@ export const courses: CourseMeta[] = [
     date: '2026-11-12',
     steps: reactJsSteps,
   },
-
   {
     slug: 'framework-front-maison',
     title: 'Framework front maison',
@@ -78,6 +78,16 @@ export const courses: CourseMeta[] = [
     level: 'debutant',
     date: '2026-11-13',
     steps: postgresqlSteps,
+  },
+  {
+    slug: 'github-actions-cicd',
+    title: 'CI/CD — Automatiser avec GitHub Actions',
+    description:
+      'Comprendre la CI/CD, créer des workflows YAML, automatiser les tests et déployer une application React sur GitHub Pages.',
+    techno: ['GitHub Actions', 'Git', 'YAML', 'Vite', 'Vitest'],
+    level: 'debutant',
+    date: '2026-11-17',
+    steps: githubActionsSteps,
   },
 ];
 

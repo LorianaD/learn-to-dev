@@ -117,9 +117,19 @@ export const categories: Category[] = [
         slug: 'prod',
         icon: prodIcon,
         variant: 'prod',
-        description: '',
+        description: 'Automatisez les tests, la qualité du code et le déploiement de vos applications.',
 
-        groups: [],
+        groups: [
+            {
+                title: 'CI/CD',
+                items: [
+                    {
+                        label: 'GitHub Actions — CI/CD',
+                        slug: 'github-actions-cicd',
+                    },
+                ],
+            },
+        ],
     },
 ];
 
