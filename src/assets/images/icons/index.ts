@@ -1,6 +1,7 @@
 import searchIcon from "./search.svg";
 
 import langagesIcon from "./langagesIcon.svg";
+import conceptionIcon from "./conceptionIcon.svg";
 import frameworksIcon from './frameworksIcon.svg';
 import databaseIcon from "./databaseIcon.svg";
 import prodIcon from './prodIcon.svg';
@@ -14,6 +15,7 @@ export {
     searchIcon,
 
     langagesIcon,
+    conceptionIcon,
     frameworksIcon,
     databaseIcon,
     prodIcon,

@@ -44,9 +44,14 @@
 
 .filters {
     display: flex;
-    width: 1280px;
-    height: 38px;
     padding-top: 8px;
     align-items: flex-start;
     gap: 8px;
+    align-self: stretch;
+}
+
+@media (max-width: 1040px) {
+    .filters {
+        flex-wrap: wrap;
+    }
 }

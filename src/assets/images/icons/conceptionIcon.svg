@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 24 24"
+     fill="none"
+     stroke="#397FAE"
+     stroke-width="1.8"
+     stroke-linecap="round"
+     stroke-linejoin="round">
+
+  <!-- Fenêtre de maquette -->
+  <rect x="2" y="3" width="17" height="16" rx="2"/>
+
+  <!-- Barre supérieure -->
+  <path d="M2 7H19"/>
+  <circle cx="5" cy="5" r=".5" fill="#397FAE" stroke="none"/>
+  <circle cx="7.5" cy="5" r=".5" fill="#397FAE" stroke="none"/>
+
+  <!-- Zone de wireframe -->
+  <rect x="5" y="10" width="7" height="5" rx=".5"/>
+  <path d="M5 10L12 15M12 10L5 15" stroke-width="1.2"/>
+
+  <!-- Éléments de texte -->
+  <path d="M14 10H16M14 13H16"/>
+
+  <!-- Crayon de conception -->
+  <path d="M13 20L19.5 13.5L22 16L15.5 22L12.5 22Z"
+        fill="#DDEFF9"/>
+  <path d="M18 15L20.5 17.5"/>
+
+</svg>

@@ -1,4 +1,4 @@
-import { databaseIcon, frameworksIcon, langagesIcon, prodIcon } from "../assets";
+import { conceptionIcon, databaseIcon, frameworksIcon, langagesIcon, prodIcon } from "../assets";
 import type { Category, CategoryGroup } from "../types";
 
 export const categories: Category[] = [
@@ -7,20 +7,20 @@ export const categories: Category[] = [
         slug: 'langages',
         icon: langagesIcon,
         variant: 'langages',
-        description: '',
+        description: 'Apprenez les langages de programmation et les technologies essentielles au développement web.',
 
         groups: [
-            {
-                title: 'HTML',
-                items: [
-                    // { label: 'Les balises', slug: 'html-balises' },
-                    // { label: 'Créer un formulaire', slug: 'html-formulaire' },
-                ],
-            },
-            {
-                title: 'CSS',
-                items: [],
-            },
+            // {
+            //     title: 'HTML',
+            //     items: [
+            //         // { label: 'Les balises', slug: 'html-balises' },
+            //         // { label: 'Créer un formulaire', slug: 'html-formulaire' },
+            //     ],
+            // },
+            // {
+            //     title: 'CSS',
+            //     items: [],
+            // },
             {
                 title: 'TypeScript',
                 items: [
@@ -39,9 +39,9 @@ export const categories: Category[] = [
     {
         title: 'Conception',
         slug: 'conception',
-        icon: '',
+        icon: conceptionIcon,
         variant: 'conception',
-        description: '',
+        description: 'Découvrez les méthodes et les outils pour concevoir, organiser et modéliser vos projets.',
 
         groups: [],
     },
@@ -50,7 +50,7 @@ export const categories: Category[] = [
         slug: 'frameworks',
         icon: frameworksIcon,
         variant: 'framework',
-        description: '',
+        description: 'Apprenez à utiliser les frameworks pour développer des applications web et leurs fonctionnalités.',
 
         groups: [
             {
@@ -61,27 +61,27 @@ export const categories: Category[] = [
                     // { label: 'React Native', slug: 'react-native' },
                 ],
             },
-            {
-                title: 'Node',
-                items: [
-                    // { label: 'Node natif', slug: 'node-natif' },
-                    // { label: 'Express', slug: 'express' },
-                    // { label: 'NestJS', slug: 'nestjs' },
-                ],
-            },
-            {
-                title: 'Symfony',
-                items: [
-                    // { label: 'avec Twig', slug: 'symfony-twig' },
-                    // { label: 'API REST', slug: 'symfony-api-rest' },
-                ],
-            },
-            {
-                title: 'Angular',
-                items: [
-                    // { label: 'TypeScript', slug: 'angular-typescript' },
-                ],
-            },
+            // {
+            //     title: 'Node',
+            //     items: [
+            //         // { label: 'Node natif', slug: 'node-natif' },
+            //         // { label: 'Express', slug: 'express' },
+            //         // { label: 'NestJS', slug: 'nestjs' },
+            //     ],
+            // },
+            // {
+            //     title: 'Symfony',
+            //     items: [
+            //         // { label: 'avec Twig', slug: 'symfony-twig' },
+            //         // { label: 'API REST', slug: 'symfony-api-rest' },
+            //     ],
+            // },
+            // {
+            //     title: 'Angular',
+            //     items: [
+            //         // { label: 'TypeScript', slug: 'angular-typescript' },
+            //     ],
+            // },
             {
                 title: 'Spring Boot',
                 items: [
@@ -101,7 +101,7 @@ export const categories: Category[] = [
             {
                 title: 'SQL',
                 items: [
-                { label: 'Révisions et pratique', slug: 'sql-revisions' },
+                    { label: 'Révisions et pratique', slug: 'sql-revisions' },
                 ],
             },
             {
