@@ -9,3 +9,4 @@ export {
 }
 
 export * from "./icons";
+export * from "./courses";

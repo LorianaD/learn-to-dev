@@ -43,7 +43,14 @@ export const categories: Category[] = [
         variant: 'conception',
         description: 'Découvrez les méthodes et les outils pour concevoir, organiser et modéliser vos projets.',
 
-        groups: [],
+        groups: [
+            {
+                title: 'Design UI/UX',
+                items: [
+                    { label: 'Figma — Du Design System à la maquette', slug: 'figma-design-system' },
+                ],
+            },
+        ],
     },
     {
         title: 'Frameworks',
@@ -82,6 +89,12 @@ export const categories: Category[] = [
             //         // { label: 'TypeScript', slug: 'angular-typescript' },
             //     ],
             // },
+            {
+                title: 'Vue.js',
+                items: [
+                    { label: 'Vue.js 3 — Les bases', slug: 'vue-js' },
+                ]
+            },
             {
                 title: 'Spring Boot',
                 items: [
@@ -126,6 +139,15 @@ export const categories: Category[] = [
                     {
                         label: 'GitHub Actions — CI/CD',
                         slug: 'github-actions-cicd',
+                    },
+                ],
+            },
+            {
+                title: 'Docker',
+                items: [
+                    {
+                        label: 'Les bases et la conteneurisation',
+                        slug: 'docker',
                     },
                 ],
             },

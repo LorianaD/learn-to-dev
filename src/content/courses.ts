@@ -1,5 +1,7 @@
 // src/content/courses.ts
 import type { CourseMeta } from '../types/course';
+import { dockerSteps } from './steps/docker';
+import { figmaDesignSystemSteps } from './steps/figma-design-system';
 import { frameworkMaisonSteps } from './steps/framework-made-home';
 import { githubActionsSteps } from './steps/github-actions-cicd';
 import { javaInstallationSteps } from './steps/java-installation';
@@ -8,6 +10,7 @@ import { postgresqlSteps } from './steps/postgresql-initial';
 import { reactJsSteps } from './steps/react-js';
 import { springBootSteps } from './steps/spring-boot';
 import { sqlRevisionSteps } from './steps/sql-revisions';
+import { vueJsSteps } from './steps/vue-js';
 
 export const courses: CourseMeta[] = [
   {
@@ -88,6 +91,36 @@ export const courses: CourseMeta[] = [
     level: 'debutant',
     date: '2026-11-17',
     steps: githubActionsSteps,
+  },
+  {
+    slug: "figma-design-system",
+    title: "Figma — Du Design System à la maquette",
+    description:
+      "Apprendre Figma, créer un Design System, utiliser des bibliothèques et concevoir des maquettes interactives.",
+    techno: ["Figma", "UI/UX", "Design System"],
+    level: "debutant",
+    date: "2026-11-17",
+    steps: figmaDesignSystemSteps,
+  },
+  {
+      slug: "docker",
+      title: "Docker — Les bases et la conteneurisation",
+      description:
+          "Apprendre Docker : images, conteneurs, Dockerfile, Docker Compose, volumes et lancement de serveurs.",
+      techno: ["Docker", "Node.js", "PostgreSQL", "React"],
+      level: "debutant",
+      date: "2026-11-20",
+      steps: dockerSteps,
+  },
+  {
+    slug: "vue-js",
+    title: "Vue.js 3 — Les bases",
+    description:
+      "Apprendre Vue.js 3 avec TypeScript : composants, réactivité, directives, formulaires, Vue Router, Pinia et API REST.",
+    techno: ["Vue.js", "TypeScript", "Vite"],
+    level: "debutant",
+    date: "2026-11-23",
+    steps: vueJsSteps,
   },
 ];
 
