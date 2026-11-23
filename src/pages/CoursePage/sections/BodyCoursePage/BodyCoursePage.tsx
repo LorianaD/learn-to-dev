@@ -2,6 +2,7 @@ import { Callout, CodeBlock, InlineText } from "../../components";
 import type { CourseBlock } from "../../../../types/course";
 import styles from "./BodyCoursePage.module.css";
 import type { BodyCoursePageTypes } from "./BodyCoursePage.types";
+import { CourseImage } from "../../../../components";
 
 // Chaque sous-titre reçoit un id pour que le sommaire puisse y renvoyer (#section-3)
 function sectionId(blockIndex: number) {
@@ -28,6 +29,15 @@ function renderBlock(block: CourseBlock, index: number) {
         case "tip":
         case "warning":
             return <Callout key={index} variant={block.type} content={block.content} />;
+        case "image":
+            return (
+                <CourseImage
+                    key={index}
+                    src={block.src}
+                    alt={block.alt}
+                    caption={block.caption}
+                />
+            );
     }
 }
 

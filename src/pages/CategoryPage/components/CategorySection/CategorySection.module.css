@@ -32,5 +32,6 @@
     .categorySectionCards {
         display: flex;
         flex-wrap: wrap;
+        width: 100%;
     }
 }

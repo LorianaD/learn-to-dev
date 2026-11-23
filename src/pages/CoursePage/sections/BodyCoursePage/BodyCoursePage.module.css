@@ -165,6 +165,32 @@
     color: #4A4E63;
 }
 
+/* ----- Illustrations des cours ----- */
+
+.courseImage {
+    width: 100%;
+    max-width: 680px;
+    margin: 8px auto 16px;
+    text-align: center;
+}
+
+.courseImage img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 360px;
+    object-fit: contain;
+    border: none;
+    border-radius: 12px;
+}
+
+.courseImage figcaption {
+    margin-top: 12px;
+    font-size: 13px;
+    line-height: 20px;
+    color: #6B6F85;
+}
+
 @media (max-width: 1024px) {
     .body {
         flex-direction: column;
@@ -179,5 +205,13 @@
     .stepTitle {
         font-size: 28px;
         line-height: 36px;
+    }
+
+    .courseImage {
+        max-width: 100%;
+    }
+
+    .courseImage img {
+        max-height: 280px;
     }
 }

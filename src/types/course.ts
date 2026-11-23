@@ -12,7 +12,15 @@ export type CourseBlock =
   | { type: 'heading'; content: string }                     // sous-titre, listé dans « Dans cette étape »
   | { type: 'code'; code: string; file?: string }            // file = nom du fichier affiché au-dessus du code
   | { type: 'tip'; content: string }                         // encadré vert « Astuce »
-  | { type: 'warning'; content: string };                    // encadré orange « Attention »
+  | { type: 'warning'; content: string }
+  | { type: 'image'; src: string; alt: string; caption?: string };
+
+export type CourseImageBlock = {
+    type: "image";
+    src: string;
+    alt: string;
+    caption?: string;
+};
 
 export interface CourseStep {
   label: string;           // texte court de l'onglet : "useState"

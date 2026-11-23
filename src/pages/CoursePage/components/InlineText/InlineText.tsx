@@ -5,7 +5,7 @@ interface InlineTextTypes {
 }
 
 // Recognizes inline code, bold, italic and Markdown links.
-const markdownRegex = /(`[^`]+`|\*\*[^*]+\*\*|\*[^*\n]+\*|\[[^\]]+\]\(https?:\/\/[^)\s]+\))/g;
+const markdownRegex = /(`[^`]+`|\*\*[^*]+\*\*|\*[^*\n]+\*|\[[^\]]+\]\(https?:\/\/[^)\s]+\)|\n)/g;
 
 function InlineText({ text }: InlineTextTypes) {
     const parts = text.split(markdownRegex);
@@ -32,6 +32,10 @@ function InlineText({ text }: InlineTextTypes) {
                             {link[1]}
                         </a>
                     );
+                }
+
+                if (part === "\n") {
+                    return <br key={index} />;
                 }
 
                 return part;

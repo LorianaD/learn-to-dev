@@ -75,5 +75,7 @@
 /* MEDIA QUERIES */
 
 @media (max-width: 1400px) {
-
+    .card {
+        width: 100%;
+    }
 }
