@@ -1,5 +1,6 @@
 // src/content/courses.ts
 import type { CourseMeta } from '../types/course';
+import { angularTypescriptSteps } from './steps/angular-typescript';
 import { dockerSteps } from './steps/docker';
 import { figmaDesignSystemSteps } from './steps/figma-design-system';
 import { frameworkMaisonSteps } from './steps/framework-made-home';
@@ -121,6 +122,16 @@ export const courses: CourseMeta[] = [
     level: "debutant",
     date: "2026-11-23",
     steps: vueJsSteps,
+  },
+  {
+    slug: "angular-typescript",
+    title: "Angular — De l’installation à la création d’une application",
+    description:
+        "Apprendre Angular avec TypeScript : composants, Signals, services, routing, formulaires, RxJS et API REST.",
+    techno: ["Angular", "TypeScript", "RxJS"],
+    level: "debutant",
+    date: "2026-11-24",
+    steps: angularTypescriptSteps,
   },
 ];
 

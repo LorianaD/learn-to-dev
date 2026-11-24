@@ -83,12 +83,12 @@ export const categories: Category[] = [
             //         // { label: 'API REST', slug: 'symfony-api-rest' },
             //     ],
             // },
-            // {
-            //     title: 'Angular',
-            //     items: [
-            //         // { label: 'TypeScript', slug: 'angular-typescript' },
-            //     ],
-            // },
+            {
+                title: 'Angular',
+                items: [
+                    { label: 'Angular — Les bases', slug: 'angular-typescript' },
+                ],
+            },
             {
                 title: 'Vue.js',
                 items: [
