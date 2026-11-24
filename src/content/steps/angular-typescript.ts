@@ -1,4 +1,42 @@
 import type { CourseStep } from '../../types/course';
+import {
+  angular01Schema,
+  angular01Demo,
+  angular02Schema,
+  angular02Demo,
+  angular03Schema,
+  angular03Demo,
+  angular04Schema,
+  angular04Demo,
+  angular05Schema,
+  angular05Demo,
+  angular06Schema,
+  angular06Demo,
+  angular07Schema,
+  angular07Demo,
+  angular08Schema,
+  angular08Demo,
+  angular09Schema,
+  angular09Demo,
+  angular10Schema,
+  angular10Demo,
+  angular11Schema,
+  angular11Demo,
+  angular12Schema,
+  angular12Demo,
+  angular13Schema,
+  angular13Demo,
+  angular14Schema,
+  angular14Demo,
+  angular15Schema,
+  angular15Demo,
+  angular16Schema,
+  angular16Demo,
+  angular17Schema,
+  angular17Demo,
+  angular18Schema,
+  angular18Demo
+} from '../../assets/images/courses/angular';
 
 export const angularTypescriptSteps: CourseStep[] = [
   {
@@ -6,6 +44,12 @@ export const angularTypescriptSteps: CourseStep[] = [
     "title": "Comprendre Angular",
     "intro": "Découvrir un framework frontend structuré.",
     "blocks": [
+      {
+        "type": "image",
+        "src": angular01Schema,
+        "alt": "Découverte — schema",
+        "caption": "Schéma de repérage des notions."
+      },
       {
         "type": "heading",
         "content": "Angular, React et Vue.js"
@@ -25,6 +69,16 @@ export const angularTypescriptSteps: CourseStep[] = [
       {
         "type": "tip",
         "content": "Projet fil rouge : TaskBoard, une application de gestion de tâches. Documentation : [Angular](https://angular.dev/overview)."
+      },
+      {
+        "type": "image",
+        "src": angular01Demo,
+        "alt": "Découverte — demo",
+        "caption": "Simulation du résultat attendu, non issue d’une exécution réelle."
+      },
+      {
+        "type": "tip",
+        "content": "Point de contrôle : TaskBoard — architecture. Vérifie le terminal et la console avant de poursuivre."
       }
     ]
   },
@@ -34,16 +88,22 @@ export const angularTypescriptSteps: CourseStep[] = [
     "intro": "Préparer Windows, macOS ou Linux.",
     "blocks": [
       {
+        "type": "image",
+        "src": angular02Schema,
+        "alt": "Installation — schema",
+        "caption": "Schéma de repérage des notions."
+      },
+      {
         "type": "heading",
         "content": "Prérequis"
       },
       {
         "type": "text",
-        "content": "Installe une version de Node.js compatible avec la version Angular choisie. Ce cours fixe Angular 21 et utilise Node 24 LTS à jour. Consulte [la matrice de compatibilité](https://angular.dev/reference/versions)."
+        "content": "Installe une version de Node.js compatible avec la version Angular choisie. Ce cours fixe Angular 22 et utilise une version de Node compatible selon la matrice officielle. Consulte [la matrice de compatibilité](https://angular.dev/reference/versions)."
       },
       {
         "type": "code",
-        "code": "node -v\nnpm -v\nnpm install -g @angular/cli@21\nng version"
+        "code": "node -v\nnpm -v\nnpm install -g @angular/cli@22\nng version"
       },
       {
         "type": "heading",
@@ -51,7 +111,7 @@ export const angularTypescriptSteps: CourseStep[] = [
       },
       {
         "type": "code",
-        "code": "npx --package @angular/cli@21 ng version"
+        "code": "npx --package @angular/cli@22 ng version"
       },
       {
         "type": "warning",
@@ -60,6 +120,16 @@ export const angularTypescriptSteps: CourseStep[] = [
       {
         "type": "tip",
         "content": "Vérifie la version de Node et de la CLI avant de poursuivre."
+      },
+      {
+        "type": "image",
+        "src": angular02Demo,
+        "alt": "Installation — demo",
+        "caption": "Simulation du résultat attendu, non issue d’une exécution réelle."
+      },
+      {
+        "type": "tip",
+        "content": "Point de contrôle : ng version : vérifier Angular et Node. Vérifie le terminal et la console avant de poursuivre."
       }
     ]
   },
@@ -69,8 +139,14 @@ export const angularTypescriptSteps: CourseStep[] = [
     "intro": "Utiliser la CLI et comprendre les fichiers.",
     "blocks": [
       {
+        "type": "image",
+        "src": angular03Schema,
+        "alt": "Création du projet — schema",
+        "caption": "Schéma de repérage des notions."
+      },
+      {
         "type": "heading",
-        "content": "Dans le terminal, hors du site learn-to-dev"
+        "content": "Dans le terminal"
       },
       {
         "type": "code",
@@ -95,6 +171,32 @@ export const angularTypescriptSteps: CourseStep[] = [
       {
         "type": "tip",
         "content": "Arrête le serveur avec Ctrl+C. Relance-le depuis le dossier taskboard."
+      },
+      {
+        "type": "heading",
+        "content": "Comprendre le démarrage"
+      },
+      {
+        "type": "code",
+        "code": "// src/main.ts\nimport { bootstrapApplication } from '@angular/platform-browser';\nimport { appConfig } from './app/app.config';\nimport { App } from './app/app.component';\nbootstrapApplication(App, appConfig).catch(console.error);"
+      },
+      {
+        "type": "text",
+        "content": "index.html contient app-root. main.ts démarre App avec appConfig. Le sélecteur app-root relie la classe au DOM. Ne crée pas un deuxième projet si TaskBoard existe déjà. Les noms exportés par la CLI peuvent varier : vérifie les fichiers générés."
+      },
+      {
+        "type": "tip",
+        "content": "Résultat : la page initiale Angular apparaît sur localhost:4200. Garde le serveur ouvert et utilise un deuxième terminal pour les commandes."
+      },
+      {
+        "type": "image",
+        "src": angular03Demo,
+        "alt": "Création du projet — demo",
+        "caption": "Simulation du résultat attendu, non issue d’une exécution réelle."
+      },
+      {
+        "type": "tip",
+        "content": "Point de contrôle : localhost:4200 — page initiale. Vérifie le terminal et la console avant de poursuivre."
       }
     ]
   },
@@ -104,20 +206,34 @@ export const angularTypescriptSteps: CourseStep[] = [
     "intro": "Séparer logique, présentation et styles.",
     "blocks": [
       {
+        "type": "image",
+        "src": angular04Schema,
+        "alt": "Composants — schema",
+        "caption": "Schéma de repérage des notions."
+      },
+      {
         "type": "heading",
-        "content": "Créer un composant"
+        "content": "Créer le composant depuis taskboard"
       },
       {
         "type": "code",
         "code": "ng g c shared/components/header"
       },
       {
+        "type": "text",
+        "content": "La CLI crée quatre fichiers : TypeScript (logique), HTML (template), CSS (styles locaux) et spec.ts (tests). Vérifie le nom de la classe exportée ; ici Header. Si la CLI utilise un autre nom, adapte les imports et les tests."
+      },
+      {
         "type": "heading",
-        "content": "header.component.ts"
+        "content": "src/app/shared/components/header/header.component.ts"
       },
       {
         "type": "code",
-        "code": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-header',\n  standalone: true,\n  templateUrl: './header.component.html',\n  styleUrl: './header.component.css'\n})\nexport class HeaderComponent {\n  title = 'TaskBoard';\n}"
+        "code": "import { Component } from '@angular/core';\n@Component({\n  selector: 'app-header',\n  standalone: true,\n  templateUrl: './header.component.html',\n  styleUrl: './header.component.css'\n})\nexport class Header { title = 'TaskBoard'; }"
+      },
+      {
+        "type": "text",
+        "content": "@Component est un décorateur : il décrit le composant. selector définit sa balise HTML ; templateUrl et styleUrl pointent vers des fichiers voisins. standalone permet de l’importer directement."
       },
       {
         "type": "heading",
@@ -133,19 +249,45 @@ export const angularTypescriptSteps: CourseStep[] = [
       },
       {
         "type": "code",
-        "code": "header { padding: 1rem; background: #eef2ff; }"
+        "code": "header { padding: 16px 24px; background: #1e293b; color: white; }\nh1 { margin: 0; }"
       },
       {
         "type": "heading",
-        "content": "app.component.ts"
+        "content": "src/app/app.component.ts — remplacer le contenu"
       },
       {
         "type": "code",
-        "code": "import { Component } from '@angular/core';\nimport { HeaderComponent } from './shared/components/header/header.component';\n\n@Component({\n  selector: 'app-root',\n  imports: [HeaderComponent],\n  template: '<app-header></app-header>'\n})\nexport class AppComponent {}"
+        "code": "import { Component } from '@angular/core';\nimport { Header } from './shared/components/header/header.component';\n@Component({\n  selector: 'app-root',\n  imports: [Header],\n  templateUrl: './app.component.html',\n  styleUrl: './app.component.css'\n})\nexport class App {}"
+      },
+      {
+        "type": "text",
+        "content": "L’import TypeScript rend la classe disponible ; imports dans @Component rend son sélecteur utilisable dans le HTML. Les deux sont nécessaires. Conserve le nom App utilisé dans main.ts."
+      },
+      {
+        "type": "heading",
+        "content": "src/app/app.component.html — remplacer le contenu"
+      },
+      {
+        "type": "code",
+        "code": "<app-header></app-header>\n<main><h1>Bienvenue sur TaskBoard</h1></main>"
+      },
+      {
+        "type": "warning",
+        "content": "Une page blanche ? Vérifie le terminal ng serve, la console du navigateur, le contenu de app.component.html et les deux imports. Le DOM doit contenir app-root puis app-header."
       },
       {
         "type": "tip",
-        "content": "Crée un FooterComponent et importe-le dans AppComponent. Les styles du composant sont encapsulés par défaut."
+        "content": "Exercice : change title dans Header et observe le résultat sans recharger manuellement."
+      },
+      {
+        "type": "image",
+        "src": angular04Demo,
+        "alt": "Composants — demo",
+        "caption": "Simulation du résultat attendu, non issue d’une exécution réelle."
+      },
+      {
+        "type": "tip",
+        "content": "Point de contrôle : TaskBoard | Bienvenue sur TaskBoard. Vérifie le terminal et la console avant de poursuivre."
       }
     ]
   },
@@ -154,6 +296,16 @@ export const angularTypescriptSteps: CourseStep[] = [
     "title": "Maîtriser le data binding",
     "intro": "Relier les propriétés et événements au HTML.",
     "blocks": [
+      {
+        "type": "image",
+        "src": angular05Schema,
+        "alt": "Templates — schema",
+        "caption": "Schéma de repérage des notions."
+      },
+      {
+        "type": "text",
+        "content": "Crée le compteur avec ng g c shared/components/counter. Remplace le fichier counter.component.ts par le code ci-dessous (template intégré). Importe CounterComponent dans app.component.ts et ajoute-le à imports, puis ajoute <app-counter></app-counter> dans app.component.html. Si tu renommes la classe générée, adapte aussi son spec.ts."
+      },
       {
         "type": "heading",
         "content": "Exemple isolé : composant compteur"
@@ -169,6 +321,16 @@ export const angularTypescriptSteps: CourseStep[] = [
       {
         "type": "tip",
         "content": "Importe CounterComponent dans le composant racine et ajoute <app-counter>."
+      },
+      {
+        "type": "image",
+        "src": angular05Demo,
+        "alt": "Templates — demo",
+        "caption": "Simulation du résultat attendu, non issue d’une exécution réelle."
+      },
+      {
+        "type": "tip",
+        "content": "Point de contrôle : Compteur : 1 | + | −. Vérifie le terminal et la console avant de poursuivre."
       }
     ]
   },
@@ -177,6 +339,16 @@ export const angularTypescriptSteps: CourseStep[] = [
     "title": "Afficher des listes et conditions",
     "intro": "Utiliser le contrôle de flux et les pipes.",
     "blocks": [
+      {
+        "type": "image",
+        "src": angular06Schema,
+        "alt": "Directives — schema",
+        "caption": "Schéma de repérage des notions."
+      },
+      {
+        "type": "text",
+        "content": "Travaille dans features/tasks/task-list. Les propriétés vont dans la classe TaskListComponent, les blocs @if et @for dans task-list.component.html. Importe TaskListComponent dans App et ajoute son sélecteur au HTML pour le tester."
+      },
       {
         "type": "code",
         "code": "// Propriétés dans un composant\ntasks = [{ id: 1, title: 'Apprendre Angular', completed: false }];\nstatus = 'ready';"
@@ -208,6 +380,24 @@ export const angularTypescriptSteps: CourseStep[] = [
       {
         "type": "tip",
         "content": "Vide le tableau puis vérifie l’état vide."
+      },
+      {
+        "type": "heading",
+        "content": "src/app/features/tasks/task-list/task-list.component.ts — version complète"
+      },
+      {
+        "type": "code",
+        "code": "import { Component, signal } from '@angular/core';\nimport { DatePipe, UpperCasePipe } from '@angular/common';\n@Component({selector:'app-task-list', imports:[DatePipe, UpperCasePipe], templateUrl:'./task-list.component.html'})\nexport class TaskListComponent {\n tasks = [{id:1,title:'Apprendre Angular',completed:false}];\n status = 'ready';\n today = new Date();\n}"
+      },
+      {
+        "type": "image",
+        "src": angular06Demo,
+        "alt": "Directives — demo",
+        "caption": "Simulation du résultat attendu, non issue d’une exécution réelle."
+      },
+      {
+        "type": "tip",
+        "content": "Point de contrôle : Apprendre Angular — À faire. Vérifie le terminal et la console avant de poursuivre."
       }
     ]
   },
@@ -216,6 +406,16 @@ export const angularTypescriptSteps: CourseStep[] = [
     "title": "Utiliser les Signals",
     "intro": "Gérer un état et ses valeurs dérivées.",
     "blocks": [
+      {
+        "type": "image",
+        "src": angular07Schema,
+        "alt": "Réactivité — schema",
+        "caption": "Schéma de repérage des notions."
+      },
+      {
+        "type": "text",
+        "content": "Reprends CounterComponent : remplace ses propriétés et méthodes par celles ci-dessous, puis adapte son template. Un signal se lit avec (), set remplace la valeur et update calcule la suivante. computed dérive une valeur ; effect sert aux effets externes, pas à recopier un état."
+      },
       {
         "type": "code",
         "code": "import { signal, computed, effect } from '@angular/core';\n\n// Dans la classe d’un composant\ncount = signal(0);\ndouble = computed(() => this.count() * 2);\nconstructor() {\n  effect(() => console.log(this.count()));\n}\nincrement() { this.count.update(n => n + 1); }\nreset() { this.count.set(0); }"
@@ -235,6 +435,16 @@ export const angularTypescriptSteps: CourseStep[] = [
       {
         "type": "tip",
         "content": "Ajoute un computed qui indique si le compteur est pair."
+      },
+      {
+        "type": "image",
+        "src": angular07Demo,
+        "alt": "Réactivité — demo",
+        "caption": "Simulation du résultat attendu, non issue d’une exécution réelle."
+      },
+      {
+        "type": "tip",
+        "content": "Point de contrôle : Compteur : 2 | Double : 4. Vérifie le terminal et la console avant de poursuivre."
       }
     ]
   },
@@ -243,6 +453,16 @@ export const angularTypescriptSteps: CourseStep[] = [
     "title": "Communiquer entre composants",
     "intro": "Transmettre les données au composant enfant et remonter un événement.",
     "blocks": [
+      {
+        "type": "image",
+        "src": angular08Schema,
+        "alt": "Communication — schema",
+        "caption": "Schéma de repérage des notions."
+      },
+      {
+        "type": "text",
+        "content": "Crée ng g c shared/components/task-card. Le parent TaskListComponent possède le tableau ; l’enfant reçoit un titre et émet un événement. Importe TaskCardComponent dans le parent, pas seulement dans App."
+      },
       {
         "type": "heading",
         "content": "task-card.component.ts"
@@ -266,6 +486,32 @@ export const angularTypescriptSteps: CourseStep[] = [
       {
         "type": "tip",
         "content": "Ajoute un input completed de type boolean."
+      },
+      {
+        "type": "heading",
+        "content": "Dans TaskListComponent — importer et gérer la suppression"
+      },
+      {
+        "type": "code",
+        "code": "import { TaskCardComponent } from '../../../shared/components/task-card/task-card.component';\n// Ajouter TaskCardComponent à imports dans @Component.\n// Ajouter cette méthode dans la classe :\ndeleteTask(id: number) { this.tasks = this.tasks.filter(task => task.id !== id); }"
+      },
+      {
+        "type": "heading",
+        "content": "task-list.component.html — remplacer la liste"
+      },
+      {
+        "type": "code",
+        "code": "@for (task of tasks; track task.id) {\n  <app-task-card [title]=\"task.title\" (remove)=\"deleteTask(task.id)\" />\n} @empty { <p>Aucune tâche</p> }"
+      },
+      {
+        "type": "image",
+        "src": angular08Demo,
+        "alt": "Communication — demo",
+        "caption": "Simulation du résultat attendu, non issue d’une exécution réelle."
+      },
+      {
+        "type": "tip",
+        "content": "Point de contrôle : Apprendre Angular | Supprimer. Vérifie le terminal et la console avant de poursuivre."
       }
     ]
   },
@@ -274,6 +520,16 @@ export const angularTypescriptSteps: CourseStep[] = [
     "title": "Créer un service et injecter une dépendance",
     "intro": "Centraliser les données du projet fil rouge.",
     "blocks": [
+      {
+        "type": "image",
+        "src": angular09Schema,
+        "alt": "Services — schema",
+        "caption": "Schéma de repérage des notions."
+      },
+      {
+        "type": "text",
+        "content": "Utilise les fichiers déjà générés core/models/task.ts et core/services/task.service.ts (ou adapte leurs noms réels). Le service fourni à la racine partage une instance. Le signal privé protège les écritures ; les composants lisent tasks() et appellent les méthodes."
+      },
       {
         "type": "heading",
         "content": "core/models/task.ts"
@@ -297,6 +553,32 @@ export const angularTypescriptSteps: CourseStep[] = [
       {
         "type": "tip",
         "content": "Ajoute une méthode rename(id, title)."
+      },
+      {
+        "type": "heading",
+        "content": "task-list.component.ts — connecter le service"
+      },
+      {
+        "type": "code",
+        "code": "import { Component, inject } from '@angular/core';\nimport { TaskService } from '../../../core/services/task.service';\n@Component({selector:'app-task-list',templateUrl:'./task-list.component.html'})\nexport class TaskListComponent { readonly service = inject(TaskService); }"
+      },
+      {
+        "type": "heading",
+        "content": "task-list.component.html"
+      },
+      {
+        "type": "code",
+        "code": "<button (click)=\"service.add('Apprendre Angular')\">Ajouter</button>\n@for (task of service.tasks(); track task.id) {\n <p>{{ task.title }} <button (click)=\"service.toggle(task.id)\">{{ task.completed ? \"Terminée\" : \"À faire\" }}</button> <button (click)=\"service.remove(task.id)\">Supprimer</button></p>\n} @empty { <p>Aucune tâche</p> }"
+      },
+      {
+        "type": "image",
+        "src": angular09Demo,
+        "alt": "Services — demo",
+        "caption": "Simulation du résultat attendu, non issue d’une exécution réelle."
+      },
+      {
+        "type": "tip",
+        "content": "Point de contrôle : Ajouter | Apprendre Angular | À faire. Vérifie le terminal et la console avant de poursuivre."
       }
     ]
   },
@@ -305,6 +587,16 @@ export const angularTypescriptSteps: CourseStep[] = [
     "title": "Créer les pages et la navigation",
     "intro": "Configurer Angular Router.",
     "blocks": [
+      {
+        "type": "image",
+        "src": angular10Schema,
+        "alt": "Routing — schema",
+        "caption": "Schéma de repérage des notions."
+      },
+      {
+        "type": "text",
+        "content": "Crée les pages depuis taskboard. Utilise les classes HomeComponent et NotFoundComponent dans les fichiers générés, en adaptant leurs tests si nécessaire. Le routeur remplace uniquement router-outlet ; garde le Header en dehors."
+      },
       {
         "type": "code",
         "code": "ng g c features/home\nng g c features/not-found"
@@ -323,7 +615,7 @@ export const angularTypescriptSteps: CourseStep[] = [
       },
       {
         "type": "code",
-        "code": "import { Component } from '@angular/core';\nimport { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';\n@Component({\n  selector: 'app-root',\n  imports: [RouterLink, RouterLinkActive, RouterOutlet],\n  template: `<nav><a routerLink=\"/\">Accueil</a> <a routerLink=\"/tasks\" routerLinkActive=\"active\">Tâches</a></nav><router-outlet />`\n})\nexport class AppComponent {}"
+        "code": "import { Component } from '@angular/core';\nimport { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';\nimport { Header } from './shared/components/header/header.component';\n@Component({selector:'app-root',imports:[Header,RouterLink,RouterLinkActive,RouterOutlet],templateUrl:'./app.component.html',styleUrl:'./app.component.css'})\nexport class App {}"
       },
       {
         "type": "text",
@@ -336,6 +628,32 @@ export const angularTypescriptSteps: CourseStep[] = [
       {
         "type": "tip",
         "content": "Teste /tasks et une URL inexistante."
+      },
+      {
+        "type": "heading",
+        "content": "app.component.html — remplacer le contenu"
+      },
+      {
+        "type": "code",
+        "code": "<app-header />\n<nav><a routerLink=\"/\">Accueil</a> <a routerLink=\"/tasks\" routerLinkActive=\"active\">Tâches</a></nav>\n<main><router-outlet /></main>"
+      },
+      {
+        "type": "heading",
+        "content": "home.component.html et not-found.component.html (respectivement)"
+      },
+      {
+        "type": "code",
+        "code": "<h1>Bienvenue sur TaskBoard</h1>\n\n<!-- Dans not-found.component.html : -->\n<h1>Page introuvable</h1>"
+      },
+      {
+        "type": "image",
+        "src": angular10Demo,
+        "alt": "Routing — demo",
+        "caption": "Simulation du résultat attendu, non issue d’une exécution réelle."
+      },
+      {
+        "type": "tip",
+        "content": "Point de contrôle : Accueil | Tâches | Page introuvable. Vérifie le terminal et la console avant de poursuivre."
       }
     ]
   },
@@ -344,6 +662,16 @@ export const angularTypescriptSteps: CourseStep[] = [
     "title": "Créer et valider un formulaire",
     "intro": "Comparer ngModel et Reactive Forms.",
     "blocks": [
+      {
+        "type": "image",
+        "src": angular11Schema,
+        "alt": "Formulaires — schema",
+        "caption": "Schéma de repérage des notions."
+      },
+      {
+        "type": "text",
+        "content": "Le formulaire remplace la liste provisoire du chapitre précédent. FormsModule est nécessaire uniquement pour ngModel ; ReactiveFormsModule est nécessaire pour formControl. Le service reste inchangé."
+      },
       {
         "type": "heading",
         "content": "Template-driven : exemple indépendant"
@@ -375,6 +703,16 @@ export const angularTypescriptSteps: CourseStep[] = [
       {
         "type": "tip",
         "content": "Teste un titre vide, une tâche valide, puis la suppression. FormGroup permet de regrouper plusieurs FormControl."
+      },
+      {
+        "type": "image",
+        "src": angular11Demo,
+        "alt": "Formulaires — demo",
+        "caption": "Simulation du résultat attendu, non issue d’une exécution réelle."
+      },
+      {
+        "type": "tip",
+        "content": "Point de contrôle : Nouvelle tâche | Ajouter | 1 restante. Vérifie le terminal et la console avant de poursuivre."
       }
     ]
   },
@@ -383,6 +721,16 @@ export const angularTypescriptSteps: CourseStep[] = [
     "title": "Comprendre les Observables",
     "intro": "Manipuler les flux asynchrones.",
     "blocks": [
+      {
+        "type": "image",
+        "src": angular12Schema,
+        "alt": "RxJS — schema",
+        "caption": "Schéma de repérage des notions."
+      },
+      {
+        "type": "text",
+        "content": "Teste of dans un composant ou un fichier TypeScript importé. Un Observable émet des valeurs dans le temps ; subscribe déclenche notamment une requête HTTP froide. AsyncPipe s’abonne et se désabonne automatiquement."
+      },
       {
         "type": "code",
         "code": "import { of, map, filter } from 'rxjs';\nof(1, 2, 3, 4).pipe(\n  filter(n => n % 2 === 0),\n  map(n => n * 10)\n).subscribe(console.log); // 20, 40"
@@ -406,6 +754,16 @@ export const angularTypescriptSteps: CourseStep[] = [
       {
         "type": "tip",
         "content": "Change la fréquence du timer à 500 ms."
+      },
+      {
+        "type": "image",
+        "src": angular12Demo,
+        "alt": "RxJS — demo",
+        "caption": "Simulation du résultat attendu, non issue d’une exécution réelle."
+      },
+      {
+        "type": "tip",
+        "content": "Point de contrôle : Console : 20 puis 40. Vérifie le terminal et la console avant de poursuivre."
       }
     ]
   },
@@ -414,6 +772,16 @@ export const angularTypescriptSteps: CourseStep[] = [
     "title": "Connecter Angular à une API REST",
     "intro": "Utiliser HttpClient et gérer un CRUD distant.",
     "blocks": [
+      {
+        "type": "image",
+        "src": angular13Schema,
+        "alt": "API REST — schema",
+        "caption": "Schéma de repérage des notions."
+      },
+      {
+        "type": "text",
+        "content": "Crée ng g c features/tasks/task-remote et ng g s core/services/task-api. Conserve la liste locale sur /tasks et ajoute une route /remote. Le serveur doit exposer les quatre opérations décrites ; sans serveur, la liste distante affiche une erreur."
+      },
       {
         "type": "heading",
         "content": "Préparer le backend"
@@ -457,6 +825,28 @@ export const angularTypescriptSteps: CourseStep[] = [
       {
         "type": "tip",
         "content": "Vérifie les requêtes dans DevTools > Network."
+      },
+      {
+        "type": "heading",
+        "content": "app.routes.ts — ajouter avant la route **"
+      },
+      {
+        "type": "code",
+        "code": "import { TaskRemoteComponent } from './features/tasks/task-remote/task-remote.component';\n// Dans routes :\n{ path: 'remote', component: TaskRemoteComponent },"
+      },
+      {
+        "type": "text",
+        "content": "Contrat API : GET /api/tasks retourne un tableau Task[] ; POST reçoit title et completed et retourne une tâche avec id ; PUT /api/tasks/:id reçoit la tâche complète ; DELETE retourne 204. Autorise localhost:4200 dans la configuration CORS du backend. Les méthodes CRUD du service sont prêtes, mais seule la lecture distante est connectée à une interface ici."
+      },
+      {
+        "type": "image",
+        "src": angular13Demo,
+        "alt": "API REST — demo",
+        "caption": "Simulation du résultat attendu, non issue d’une exécution réelle."
+      },
+      {
+        "type": "tip",
+        "content": "Point de contrôle : Chargement / Liste / Erreur. Vérifie le terminal et la console avant de poursuivre."
       }
     ]
   },
@@ -465,6 +855,16 @@ export const angularTypescriptSteps: CourseStep[] = [
     "title": "Organiser une application professionnelle",
     "intro": "Séparer les responsabilités.",
     "blocks": [
+      {
+        "type": "image",
+        "src": angular14Schema,
+        "alt": "Architecture — schema",
+        "caption": "Schéma de repérage des notions."
+      },
+      {
+        "type": "text",
+        "content": "Ne déplace pas les fichiers déjà rangés. core contient les services partagés, shared les composants génériques, features les fonctionnalités. Le lazy loading charge le composant lorsque la route est visitée."
+      },
       {
         "type": "code",
         "code": "src/app/\n  core/\n    models/task.ts\n    services/task.service.ts\n    services/task-api.service.ts\n    guards/\n    interceptors/\n  shared/components/\n  features/\n    home/\n    tasks/\n      task-list/\n      task-remote/\n    not-found/\n  app.routes.ts\n  app.config.ts"
@@ -484,6 +884,16 @@ export const angularTypescriptSteps: CourseStep[] = [
       {
         "type": "tip",
         "content": "Déplace une carte de tâche dans shared si elle est réellement générique."
+      },
+      {
+        "type": "image",
+        "src": angular14Demo,
+        "alt": "Architecture — demo",
+        "caption": "Simulation du résultat attendu, non issue d’une exécution réelle."
+      },
+      {
+        "type": "tip",
+        "content": "Point de contrôle : core / shared / features. Vérifie le terminal et la console avant de poursuivre."
       }
     ]
   },
@@ -492,6 +902,16 @@ export const angularTypescriptSteps: CourseStep[] = [
     "title": "Comprendre Guards, Interceptors et JWT",
     "intro": "Préparer une intégration avec un backend authentifié.",
     "blocks": [
+      {
+        "type": "image",
+        "src": angular15Schema,
+        "alt": "Authentification — schema",
+        "caption": "Schéma de repérage des notions."
+      },
+      {
+        "type": "text",
+        "content": "Cette étape est une démonstration isolée : ne protège pas /tasks avant de disposer d’une vraie page de connexion et d’un backend. Le guard ne sécurise pas le serveur ; le backend doit vérifier le JWT et les autorisations."
+      },
       {
         "type": "text",
         "content": "Exemple indépendant : le serveur délivre un jeton d’accès après connexion. Le service ci-dessous conserve uniquement le jeton en mémoire ; un rechargement déconnecte l’utilisateur. Le backend doit vérifier le token et les autorisations à chaque requête protégée."
@@ -519,6 +939,16 @@ export const angularTypescriptSteps: CourseStep[] = [
       {
         "type": "tip",
         "content": "Prévois les états 401 (non authentifié) et 403 (accès interdit)."
+      },
+      {
+        "type": "image",
+        "src": angular15Demo,
+        "alt": "Authentification — demo",
+        "caption": "Simulation du résultat attendu, non issue d’une exécution réelle."
+      },
+      {
+        "type": "tip",
+        "content": "Point de contrôle : Accès refusé sans session. Vérifie le terminal et la console avant de poursuivre."
       }
     ]
   },
@@ -527,6 +957,16 @@ export const angularTypescriptSteps: CourseStep[] = [
     "title": "Tester les services et composants",
     "intro": "Utiliser TestBed et Vitest.",
     "blocks": [
+      {
+        "type": "image",
+        "src": angular16Schema,
+        "alt": "Tests — schema",
+        "caption": "Schéma de repérage des notions."
+      },
+      {
+        "type": "text",
+        "content": "Place les tests à côté des fichiers testés. Vérifie que les tests générés importent les noms de classes réellement exportés. Exécute les commandes depuis taskboard."
+      },
       {
         "type": "heading",
         "content": "task.service.spec.ts"
@@ -554,6 +994,16 @@ export const angularTypescriptSteps: CourseStep[] = [
       {
         "type": "tip",
         "content": "Ajoute un test qui vérifie la suppression."
+      },
+      {
+        "type": "image",
+        "src": angular16Demo,
+        "alt": "Tests — demo",
+        "caption": "Simulation du résultat attendu, non issue d’une exécution réelle."
+      },
+      {
+        "type": "tip",
+        "content": "Point de contrôle : Tests : ajout et titre vide. Vérifie le terminal et la console avant de poursuivre."
       }
     ]
   },
@@ -562,6 +1012,16 @@ export const angularTypescriptSteps: CourseStep[] = [
     "title": "Compiler et déployer Angular",
     "intro": "Préparer une application SPA pour la production.",
     "blocks": [
+      {
+        "type": "image",
+        "src": angular17Schema,
+        "alt": "Production — schema",
+        "caption": "Schéma de repérage des notions."
+      },
+      {
+        "type": "text",
+        "content": "Le build produit des fichiers statiques, généralement dans dist/taskboard/browser. Configure le serveur pour renvoyer index.html pour les routes SPA. GitHub Pages ne propose pas ce fallback automatiquement."
+      },
       {
         "type": "code",
         "code": "ng build --configuration production"
@@ -585,6 +1045,16 @@ export const angularTypescriptSteps: CourseStep[] = [
       {
         "type": "tip",
         "content": "Exécute les tests puis le build avant ton commit."
+      },
+      {
+        "type": "image",
+        "src": angular17Demo,
+        "alt": "Production — demo",
+        "caption": "Simulation du résultat attendu, non issue d’une exécution réelle."
+      },
+      {
+        "type": "tip",
+        "content": "Point de contrôle : Build : fichiers statiques. Vérifie le terminal et la console avant de poursuivre."
       }
     ]
   },
@@ -593,6 +1063,16 @@ export const angularTypescriptSteps: CourseStep[] = [
     "title": "Réaliser TaskBoard",
     "intro": "Consolider les acquis avec une application fonctionnelle.",
     "blocks": [
+      {
+        "type": "image",
+        "src": angular18Schema,
+        "alt": "Projet final — schema",
+        "caption": "Schéma de repérage des notions."
+      },
+      {
+        "type": "text",
+        "content": "Reprends la liste locale du chapitre Formulaires. Ajoute les filtres sans supprimer le formulaire ni les actions. Les tâches en mémoire disparaissent au rechargement : la persistance est un exercice supplémentaire."
+      },
       {
         "type": "heading",
         "content": "Version locale"
@@ -636,6 +1116,20 @@ export const angularTypescriptSteps: CourseStep[] = [
       {
         "type": "tip",
         "content": "Documentation : [Angular](https://angular.dev) et [RxJS](https://rxjs.dev)."
+      },
+      {
+        "type": "text",
+        "content": "Dans task-list.component.html, remplace uniquement service.tasks() dans @for par visibleTasks(). Place les trois boutons de filtre hors du formulaire. Vérifie ajout, changement d’état, suppression et chaque filtre."
+      },
+      {
+        "type": "image",
+        "src": angular18Demo,
+        "alt": "Projet final — demo",
+        "caption": "Simulation du résultat attendu, non issue d’une exécution réelle."
+      },
+      {
+        "type": "tip",
+        "content": "Point de contrôle : Toutes | À faire | Terminées. Vérifie le terminal et la console avant de poursuivre."
       }
     ]
   }
