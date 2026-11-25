@@ -24,6 +24,7 @@ export const categories: Category[] = [
             {
                 title: 'TypeScript',
                 items: [
+                    { label: 'TypeScript — Les bases', slug: 'typescript-basics' },
                     { label: 'Framework front maison', slug: 'framework-front-maison' },
                 ],
             },

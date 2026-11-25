@@ -12,6 +12,7 @@ import { postgresqlSteps } from './steps/postgresql-initial';
 import { reactJsSteps } from './steps/react-js';
 import { springBootSteps } from './steps/spring-boot';
 import { sqlRevisionSteps } from './steps/sql-revisions';
+import { typescriptBasicsSteps } from './steps/typescript-basics';
 import { vueJsSteps } from './steps/vue-js';
 
 export const courses: CourseMeta[] = [
@@ -143,6 +144,16 @@ export const courses: CourseMeta[] = [
     level: "debutant",
     date: "2026-11-25",
     steps: dddCleanArchitectureSteps,
+  },
+  {
+    slug: 'typescript-basics',
+    title: 'TypeScript — Les bases',
+    description:
+        'Apprendre TypeScript : types, interfaces, fonctions, génériques, classes, modules, DOM et API REST.',
+    techno: ['TypeScript', 'JavaScript', 'Node.js'],
+    level: 'debutant',
+    date: '2026-11-25',
+    steps: typescriptBasicsSteps,
   },
 ];
 
