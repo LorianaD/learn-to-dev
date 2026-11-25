@@ -1,11 +1,13 @@
 // src/content/courses.ts
 import type { CourseMeta } from '../types/course';
 import { angularTypescriptSteps } from './steps/angular-typescript';
+import { cssBasicsSteps } from './steps/css-basics';
 import { dddCleanArchitectureSteps } from './steps/ddd-clean-architecture';
 import { dockerSteps } from './steps/docker';
 import { figmaDesignSystemSteps } from './steps/figma-design-system';
 import { frameworkMaisonSteps } from './steps/framework-made-home';
 import { githubActionsSteps } from './steps/github-actions-cicd';
+import { htmlBasicsSteps } from './steps/html-basics';
 import { javaInstallationSteps } from './steps/java-installation';
 import { javaProjetSteps } from './steps/java-projet';
 import { javascriptBasicsSteps } from './steps/javascript-basics';
@@ -17,6 +19,26 @@ import { typescriptBasicsSteps } from './steps/typescript-basics';
 import { vueJsSteps } from './steps/vue-js';
 
 export const courses: CourseMeta[] = [
+  {
+    slug: 'html-basics',
+    title: 'HTML — Les bases',
+    description:
+        'Apprendre HTML : structure, balises, liens, images, tableaux, formulaires, sémantique, SEO et accessibilité.',
+    techno: ['HTML'],
+    level: 'debutant',
+    date: '2026-11-25',
+    steps: htmlBasicsSteps,
+  },
+  {
+    slug: 'css-basics',
+    title: 'CSS — Les bases',
+    description:
+        'Apprendre CSS : sélecteurs, couleurs, Box Model, Flexbox, Grid, responsive design, variables et animations.',
+    techno: ['HTML', 'CSS'],
+    level: 'debutant',
+    date: '2026-11-25',
+    steps: cssBasicsSteps,
+  },
   {
     slug: 'react-js',
     title: 'React JS — les bases',

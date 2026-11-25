@@ -10,17 +10,24 @@ export const categories: Category[] = [
         description: 'Apprenez les langages de programmation et les technologies essentielles au développement web.',
 
         groups: [
-            // {
-            //     title: 'HTML',
-            //     items: [
-            //         // { label: 'Les balises', slug: 'html-balises' },
-            //         // { label: 'Créer un formulaire', slug: 'html-formulaire' },
-            //     ],
-            // },
-            // {
-            //     title: 'CSS',
-            //     items: [],
-            // },
+            {
+                title: 'HTML',
+                items: [
+                    {
+                        label: 'HTML — Les bases',
+                        slug: 'html-basics',
+                    },
+                ],
+            },
+            {
+                title: 'CSS',
+                items: [
+                    {
+                        label: 'CSS — Les bases',
+                        slug: 'css-basics',
+                    },
+                ],
+            },
             {
                 title: 'JavaScript',
                 items: [
