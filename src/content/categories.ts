@@ -22,6 +22,12 @@ export const categories: Category[] = [
             //     items: [],
             // },
             {
+                title: 'JavaScript',
+                items: [
+                    { label: 'JavaScript — Les bases', slug: 'javascript-basics' },
+                ],
+            },
+            {
                 title: 'TypeScript',
                 items: [
                     { label: 'TypeScript — Les bases', slug: 'typescript-basics' },

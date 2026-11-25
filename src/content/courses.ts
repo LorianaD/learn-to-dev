@@ -8,6 +8,7 @@ import { frameworkMaisonSteps } from './steps/framework-made-home';
 import { githubActionsSteps } from './steps/github-actions-cicd';
 import { javaInstallationSteps } from './steps/java-installation';
 import { javaProjetSteps } from './steps/java-projet';
+import { javascriptBasicsSteps } from './steps/javascript-basics';
 import { postgresqlSteps } from './steps/postgresql-initial';
 import { reactJsSteps } from './steps/react-js';
 import { springBootSteps } from './steps/spring-boot';
@@ -154,6 +155,16 @@ export const courses: CourseMeta[] = [
     level: 'debutant',
     date: '2026-11-25',
     steps: typescriptBasicsSteps,
+  },
+  {
+    slug: 'javascript-basics',
+    title: 'JavaScript — Les bases',
+    description:
+        'Apprendre JavaScript : variables, fonctions, tableaux, objets, DOM, événements, programmation asynchrone et API REST.',
+    techno: ['JavaScript', 'HTML / CSS', 'Node.js'],
+    level: 'debutant',
+    date: '2026-11-25',
+    steps: javascriptBasicsSteps,
   },
 ];
 
