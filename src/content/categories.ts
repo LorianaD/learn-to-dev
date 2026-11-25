@@ -50,6 +50,15 @@ export const categories: Category[] = [
                     { label: 'Figma — Du Design System à la maquette', slug: 'figma-design-system' },
                 ],
             },
+            {
+                title: 'Architecture logicielle',
+                items: [
+                    {
+                        label: 'DDD & Clean Architecture',
+                        slug: 'ddd-clean-architecture',
+                    },
+                ],
+            },
         ],
     },
     {

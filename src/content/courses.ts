@@ -1,6 +1,7 @@
 // src/content/courses.ts
 import type { CourseMeta } from '../types/course';
 import { angularTypescriptSteps } from './steps/angular-typescript';
+import { dddCleanArchitectureSteps } from './steps/ddd-clean-architecture';
 import { dockerSteps } from './steps/docker';
 import { figmaDesignSystemSteps } from './steps/figma-design-system';
 import { frameworkMaisonSteps } from './steps/framework-made-home';
@@ -132,6 +133,16 @@ export const courses: CourseMeta[] = [
     level: "debutant",
     date: "2026-11-24",
     steps: angularTypescriptSteps,
+  },
+  {
+    slug: "ddd-clean-architecture",
+    title: "DDD & Clean Architecture — Les bases",
+    description:
+        "Découvrir le Domain-Driven Design, les règles métier, les entités, les Value Objects, les agrégats et la Clean Architecture avec TypeScript.",
+    techno: ["DDD", "Clean Architecture", "TypeScript"],
+    level: "debutant",
+    date: "2026-11-25",
+    steps: dddCleanArchitectureSteps,
   },
 ];
 
